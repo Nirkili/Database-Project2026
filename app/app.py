@@ -6,3 +6,4 @@ from werkzeug.security import check_password_hash
 app = Flask(__name__)
 app.config.from_object(Config)
 
+#@app.route('/')
