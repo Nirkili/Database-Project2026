@@ -7,7 +7,8 @@ CREATE TABLE User(
     f_name VARCHAR(255) NOT NULL,
     l_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    pswd VARCHAR(255) NOT NULL
+    pswd VARCHAR(255) NOT NULL,
+    user_type ENUM('admin', 'lecturer', 'student')
 );
 
 CREATE TABLE Student(
@@ -21,7 +22,7 @@ CREATE TABLE Student(
 
 CREATE TABLE Lecturer(
     lect_ID INT PRIMARY KEY,
-    faculty VARCHAR(100),
+    dept VARCHAR(100),
     user_ID INT,
 
     FOREIGN KEY (user_ID)
@@ -45,8 +46,9 @@ CREATE TABLE Course(
     c_code VARCHAR(15) PRIMARY key, 
     c_name VARCHAR(150),
     c_credits INT,
+    dept VARCHAR(50),
     lect_ID INT,
-    admin_ID INT,
+    admin_ID INT NOT NULL,
     
     FOREIGN KEY (lect_ID)
     REFERENCES Lecturer(lect_ID) 
