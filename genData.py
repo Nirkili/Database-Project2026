@@ -92,6 +92,8 @@ def admin(num_admins, next_ID):
 
 
 
+# LECTURERS
+
 used_lect_ids = set() # Ensures unique Lecturer IDs
 used_lect_emails = set() # Ensures unique Lecturer emails
 
@@ -182,18 +184,82 @@ def lecturers(num_lect, next_ID):
 
     
 
-      
+# STUDENTS
+used_st_ids = set() # Ensures unique Lecturer IDs
+used_st_emails = set() # Ensures unique Lecturer emails
 
+def students(num_students, next_id):
+    fake = Faker()
+    user_id_counter = next_id
 
+    def generate_email(first_name, last_name):      
+      pattern = random.choice([1, 2, 3])
 
+      if pattern == 1:
+          email = f"{first_name}.{last_name}"
+      elif pattern == 2:
+          email = f"{first_name[0]}{last_name}"
+      else:
+          email = f"{first_name}{random.randint(10, 99)}"
 
+      return f"{email.lower()}@my.mona.edu"
     
+    def generate_id():
+        while True:
+            lect_id = int(f"620{random.randint(0, 999999):03d}") # Admin ID has prefix 20 followed by 3 integers
+            if lect_id not in used_lect_ids:
+                used_lect_ids.add(lect_id)
+                return lect_id
+            
+    user_inserts = []
+    student_inserts = []
 
-    
+    for i in range(num_students):
+        # Generate Names
+        f_name = fake.first_name()
+        l_name = fake.last_name()
+
+        # Generate unique email
+        while True:
+            email = generate_email(f_name, l_name)
+            if email not in used_st_emails:
+                used_st_emails.add(email)
+                break
+            
+        password = fake.password(length=10)
+
+        st_id = generate_id()
+        user_id = user_id_counter
+
+        # USER insert
+        user_inserts.append(
+            f"({user_id}, '{f_name}', '{l_name}', '{email}', SHA2('{password}', 256), 'student')"
+        )
+
+        # STUDENT insert
+        student_inserts.append(
+            f"({st_id}, {user_id})"
+        )
+
+        user_id_counter += 1
+    # Write SQL file
+    with open("students.sql", "w") as f:
+        f.write("-- USER INSERTS\n")
+        f.write("INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES\n")
+        f.write(",\n".join(user_inserts) + ";\n\n")
+
+        f.write("-- STUDENT INSERTS\n")
+        f.write("INSERT INTO Student (st_ID, user_ID) VALUES\n")
+        f.write(",\n".join(student_inserts) + ";\n")
+
+    print("students.sql generated successfully!")
+    return
 
 
 
-# Course Generation
+
+
+# COURSE GENERATION
 
 # Departments and prefixes
 prefix_by_department = {
@@ -346,6 +412,8 @@ if __name__ == "__main__":
    #admins = admin(5, 1)
    #lecturers = lecturers(50, 6)
    #courses(200, lecturers, admins)
+
+   #students(10000, 56)
 
    pass
 
