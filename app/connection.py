@@ -9,4 +9,3 @@ class connection:
         password = Config.DB_PASSWORD, 
         database = Config.DB_NAME)
         
-        self.cursor = self.conn.cursor()
