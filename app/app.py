@@ -13,7 +13,7 @@ app.config.from_object(Config)
 def default():
    return redirect(url_for('loginGen'))
 
-@app.route('/login', methods = ["GET","POST"])
+@app.route('/api/v1/auth/login', methods = ["POST"])
 def loginGen():
     form = LoginGenForm()
     if form.validate_on_submit():
@@ -49,15 +49,15 @@ def loginGen():
                 "role": role
             }
             access_token = create_access_token(identity = identity)
-            
-            flash(f"Login Successful", "success")
-            return render_template("home?.html", form = form)
-        
-        flash("Unauthorized Access", "danger")
-        return render_template("login.html", form = form)
-    return render_template("login.html", form = form)
 
-@app.route('/Admin/login', methods = ["GET","POST"])
+            return jsonify({"message":"Login successful.",
+            "token": access_token}), 200
+
+        return jsonify({"message":"Access unauthorized."}), 403
+    
+    return jsonify({"message":"Page loaded successfully."}), 200
+
+@app.route('/api/v1/auth/admin/login', methods = ["POST"])
 def loginAdmin():
     form = LoginAdminForm()
     if form.validate_on_submit():
@@ -81,16 +81,15 @@ def loginAdmin():
                 "role": "admin"
             }
             access_token = create_access_token(identity = identity)
-            flash(f"Login Successful, token is {access_token}", "success")
             
-            return render_template("home?.html", form = form)
-            
-        flash("Unauthorized Access", "danger")
-        return render_template("login.html", form = form)
-    
-    return render_template("login.html", form = form)
+            return jsonify({"message":"Login successful.",
+            "token": access_token}), 200
 
-@app.route('/Student/register', methods = ["GET","POST"])
+        return jsonify({"message":"Access unauthorized."}), 403
+    
+    return jsonify({"message":"Page loaded successfully."}), 200
+
+@app.route('/api/v1/auth/student/register', methods = ["POST"])
 @jwt_required()
 @Role.role_required("admin")
 def registerStudent():
@@ -121,12 +120,15 @@ def registerStudent():
         cursor.close()
         conn.close()
         
-        flash("Addition Successful", "success")
-        return redirect(url_for('loginGen'))
+        return jsonify({"message":"Person added successfully.",
+        "ID #": stud_id,
+        "First Name": f_name,
+        "Last Name": l_name,
+        "Email": email}), 201
     
-    return render_template("register.html", form = form)
+    return jsonify({"message":"Page loaded successfully."}), 200
 
-@app.route('/Lecturer/register', methods = ["GET","POST"])
+@app.route('/api/v1/auth/lecturer/register', methods = ["POST"])
 @jwt_required()
 @Role.role_required("admin")
 def registerLect():
@@ -158,19 +160,90 @@ def registerLect():
         cursor.close()
         conn.close()
         
-        flash("Addition Successful", "success")
-        return redirect(url_for('loginGen'))
+        return jsonify({"message":"Person added successfully.",
+        "ID #": lect_id,
+        "First Name": f_name,
+        "Last Name": l_name,
+        "Department": depart,
+        "Email": email}), 201
+
+    return jsonify({"message":"Page loaded successfully."}), 200
+
+@app.route('/api/v1/auth/course/create', methods = ["POST"])
+@jwt_required()
+@Role.role_required("admin")
+def createCourse():
+    pass
+
+@app.route('/api/v1/auth/courses/popular', methods = ['GET'])
+def getPopCourses():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary= True)
     
-    return render_template("register.html", form = form)
+    cursor.execute("SELECT * FROM PopularCourses")
+    courses = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify(courses)
+    
 
-@app.route('/register')
-def register():
-    return redirect(url_for('login'))
+@app.route('/api/v1/auth/students/busy', methods = ['GET'])
+def getPopCourses():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary= True)
+    
+    cursor.execute("SELECT * FROM OverwhelmedStudents")
+    students = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify(students)
 
-@app.route('/register')
-def register():
-    return redirect(url_for('login'))
+@app.route('/api/v1/auth/lecturers/busy', methods = ['GET'])
+def getPopCourses():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary= True)
+    
+    cursor.execute("SELECT * FROM BusyLecturers")
+    lecturers = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify(lecturers)
 
-@app.route('/register')
-def register():
-    return redirect(url_for('login'))
+@app.route('/api/v1/auth/courses/topTen', methods = ['GET'])
+def getPopCourses():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary= True)
+    
+    cursor.execute("SELECT * FROM TopCourses")
+    courses = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify(courses)
+
+@app.route('/api/v1/auth/students/topTen', methods = ['GET'])
+def getPopCourses():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary= True)
+    
+    cursor.execute("SELECT * FROM TopStudents")
+    students = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify(students)
+
+
