@@ -130,7 +130,7 @@ CREATE TABLE CourseContent(
     con_id INT AUTO_INCREMENT PRIMARY KEY,
     con_type ENUM('link', 'file', 'slide'),
     con_desc TEXT,
-    file_name VARCHAR(50),
+    file_name VARCHAR(255),
     sect_ID INT,
 
     FOREIGN KEY (sect_ID)
