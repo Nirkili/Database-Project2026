@@ -7,6 +7,7 @@ import random
 import time
 from faker import Faker
 from datetime import date, timedelta
+from werkzeug.security import generate_password_hash
 
 fake = Faker()
 
@@ -69,6 +70,7 @@ def admin(num_admins, next_ID):
         f_name   = fake.first_name()
         l_name   = fake.last_name()
         password = fake.password(length=10)
+        password_hash = generate_password_hash(password)
 
         while True:
             email = generate_email(f_name, l_name)
@@ -82,7 +84,7 @@ def admin(num_admins, next_ID):
         admin_IDs.append(admin_id)
 
         user_inserts.append(
-            f"({user_id}, '{f_name}', '{l_name}', '{email}', SHA2('{password}', 256), 'admin')"
+            f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'admin')"
         )
         admin_inserts.append(f"({admin_id}, '{admin_code}', {user_id})")
         user_id_counter += 1
@@ -138,6 +140,7 @@ def lecturers(num_lect, next_ID):
         f_name   = fake.first_name()
         l_name   = fake.last_name()
         password = fake.password(length=10)
+        password_hash = generate_password_hash(password)
 
         while True:
             email = generate_email(f_name, l_name)
@@ -153,7 +156,7 @@ def lecturers(num_lect, next_ID):
         lecturer_user_ids.append(user_id)
 
         user_inserts.append(
-            f"({user_id}, '{f_name}', '{l_name}', '{email}', SHA2('{password}', 256), 'lecturer')"
+            f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'lecturer')"
         )
         lecturer_inserts.append(f"({lect_id}, '{dept}', {user_id})")
         user_id_counter += 1
@@ -195,6 +198,7 @@ def students(num_students, next_id):
         f_name   = fake.first_name()
         l_name   = fake.last_name()
         password = fake.password(length=10)
+        password_hash = generate_password_hash(password)
 
         while True:
             email = generate_email(f_name, l_name, i)
@@ -209,7 +213,7 @@ def students(num_students, next_id):
         student_st_ids.append(st_id)
 
         user_inserts.append(
-            f"({user_id}, '{f_name}', '{l_name}', '{email}', SHA2('{password}', 256), 'student')"
+            f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'student')"
         )
         student_inserts.append(f"({st_id}, {user_id})")
         user_id_counter += 1
@@ -1084,7 +1088,7 @@ if __name__ == "__main__":
     course_codes = courses(200, lecturers_by_dept, admin_ids)
 
     print("Generating students (100,000)...")
-    student_user_ids, student_st_ids = students(100000, 56)
+    student_user_ids, student_st_ids = students(100, 56)
 
     print("Generating calendar events...")
     calendar_events(course_codes)

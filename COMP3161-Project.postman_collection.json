@@ -1,0 +1,300 @@
+{
+  "info": {
+    "_postman_id": "bef2c0e1-8fae-4663-8f8e-ffd7991d3171",
+    "name": "COMP3161-Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52985698",
+    "_collection_link": "https://go.postman.co/collection/52985698-bef2c0e1-8fae-4663-8f8e-ffd7991d3171?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Test API",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginGen",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"400112\",\r\n    \"password\": \"876ca13a4c47d6b3062a717ca56a496c1cec6a09477e78755561ffe210224c42\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/auth/login",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get CSRF-Token",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/csrf-token",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "csrf-token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginAdmin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/auth/admin/login",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "admin",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RegisterStudent",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Get Popular Courses",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/courses/popular",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "courses",
+            "popular"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Busy Students",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/students/busy",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "students",
+            "busy"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Busy Lecturers",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/lecturers/busy",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "lecturers",
+            "busy"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Top Ten Students",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/students/topTen",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "students",
+            "topTen"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Top Ten Courses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/courses/topTen",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "courses",
+            "topTen"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
