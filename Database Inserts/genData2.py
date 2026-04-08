@@ -65,6 +65,7 @@ def admin(num_admins, next_ID):
     user_inserts  = []
     admin_inserts = []
     admin_IDs     = []
+    credentials   = []  # NEW
 
     for i in range(num_admins):
         f_name   = fake.first_name()
@@ -82,6 +83,7 @@ def admin(num_admins, next_ID):
         admin_code = generate_code()
         user_id    = user_id_counter
         admin_IDs.append(admin_id)
+        credentials.append(f"{user_id},{password}")  # NEW
 
         user_inserts.append(
             f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'admin')"
@@ -94,6 +96,11 @@ def admin(num_admins, next_ID):
         write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
         f.write("-- ADMIN INSERTS\n")
         write_batched(f, "INSERT INTO Admin (admin_ID, admin_code, user_ID) VALUES", admin_inserts)
+
+    # NEW
+    with open("admin_credentials.txt", "w", encoding="utf-8") as f:
+        f.write("user_id,password\n")
+        f.write("\n".join(credentials))
 
     print("admins.sql generated successfully!")
     return admin_IDs
@@ -135,6 +142,7 @@ def lecturers(num_lect, next_ID):
     lecturer_inserts  = []
     lecturers_by_dept = {dept: [] for dept in departments}
     lecturer_user_ids = []
+    credentials       = []  # NEW
 
     for i in range(num_lect):
         f_name   = fake.first_name()
@@ -154,6 +162,7 @@ def lecturers(num_lect, next_ID):
 
         lecturers_by_dept[dept].append(lect_id)
         lecturer_user_ids.append(user_id)
+        credentials.append(f"{user_id},{password}")  # NEW
 
         user_inserts.append(
             f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'lecturer')"
@@ -166,6 +175,11 @@ def lecturers(num_lect, next_ID):
         write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
         f.write("-- LECTURER INSERTS\n")
         write_batched(f, "INSERT INTO Lecturer (lect_ID, dept, user_ID) VALUES", lecturer_inserts)
+
+    # NEW
+    with open("lecturer_credentials.txt", "w", encoding="utf-8") as f:
+        f.write("user_id,password\n")
+        f.write("\n".join(credentials))
 
     print("lecturers.sql generated successfully!")
     return lecturers_by_dept, lecturer_user_ids
@@ -183,12 +197,12 @@ def students(num_students, next_id):
 
     def generate_email(first_name, last_name, i):
         return f"{first_name}.{last_name}{i}@my.mona.edu".lower()
-    
 
     user_inserts     = []
     student_inserts  = []
     student_user_ids = []
     student_st_ids   = []
+    credentials      = []  # NEW
 
     t0 = time.time()
     for i in range(num_students):
@@ -206,18 +220,18 @@ def students(num_students, next_id):
                 used_st_emails.add(email)
                 break
 
-        st_id = 620000000 + i
+        st_id   = 620000000 + i
         user_id = user_id_counter
 
         student_user_ids.append(user_id)
         student_st_ids.append(st_id)
+        credentials.append(f"{user_id},{password}")  # NEW
 
         user_inserts.append(
             f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'student')"
         )
         student_inserts.append(f"({st_id}, {user_id})")
         user_id_counter += 1
-        
 
     print(f"  Writing students.sql...")
     with open("students.sql", "w", encoding="utf-8") as f:
@@ -225,6 +239,11 @@ def students(num_students, next_id):
         write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
         f.write("-- STUDENT INSERTS\n")
         write_batched(f, "INSERT INTO Student (st_ID, user_ID) VALUES", student_inserts)
+
+    # NEW
+    with open("student_credentials.txt", "w", encoding="utf-8") as f:
+        f.write("user_id,password\n")
+        f.write("\n".join(credentials))
 
     print(f"students.sql generated successfully! ({num_students:,} students, {time.time()-t0:.1f}s)")
     return student_user_ids, student_st_ids
@@ -1087,8 +1106,8 @@ if __name__ == "__main__":
     print("Generating courses...")
     course_codes = courses(200, lecturers_by_dept, admin_ids)
 
-    print("Generating students (100,000)...")
-    student_user_ids, student_st_ids = students(100, 56)
+    print("Generating students (1,000)...")
+    student_user_ids, student_st_ids = students(1000, 56)
 
     print("Generating calendar events...")
     calendar_events(course_codes)

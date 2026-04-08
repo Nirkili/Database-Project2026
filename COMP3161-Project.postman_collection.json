@@ -27,19 +27,43 @@
       "response": []
     },
     {
+      "name": "Get CSRF-Token",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/csrf-token",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "csrf-token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "LoginGen",
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
             "type": "text"
           }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"id\": \"400112\",\r\n    \"password\": \"876ca13a4c47d6b3062a717ca56a496c1cec6a09477e78755561ffe210224c42\"\r\n}",
+          "raw": "{\r\n    \"id\": \"400317\",\r\n    \"password\": \"d01P6H)b+F\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -67,43 +91,19 @@
       "response": []
     },
     {
-      "name": "Get CSRF-Token",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/csrf-token",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "csrf-token"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "LoginAdmin",
       "request": {
         "method": "POST",
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
             "type": "text"
           }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}",
+          "raw": "{\r\n    \"id\": \"20533\",\r\n    \"password\": \"i^9V7navF&\",\r\n    \"code\":\"ADM-8716\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -134,14 +134,118 @@
     {
       "name": "RegisterStudent",
       "request": {
-        "method": "GET",
-        "header": []
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"st_ID\": \"620163451\",\r\n    \"f_name\": \"Dawn\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"dawn.baker@mymona.edu\",\r\n    \"pswd\": \"eFdb2CA6\"\r\n\r\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/auth/student/register",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "student",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register Lecturer",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaSCQ.tGtjzyRCjx6yhZpAH1mFHI9_J38",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"lect_ID\": \"400361\",\r\n    \"f_name\": \"Dane\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"dane.baker@lect.mona.edu\",\r\n    \"pswd\": \"eFdb2CA6\",\r\n    \"dept\": \"6\"\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/auth/lecturer/register",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "lecturer",
+            "register"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "Get Popular Courses",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [
           {
@@ -176,6 +280,16 @@
         "disableBodyPruning": true
       },
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [
           {
@@ -214,6 +328,16 @@
         "disableBodyPruning": true
       },
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [
           {
@@ -249,6 +373,16 @@
     {
       "name": "Get Top Ten Students",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -274,6 +408,16 @@
     {
       "name": "Get Top Ten Courses",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -295,6 +439,30 @@
         }
       },
       "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }
