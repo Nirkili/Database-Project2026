@@ -214,6 +214,210 @@ def registerLect():
 def createCourse():
     return jsonify({"message": "Not yet implemented."}), 501
 
+
+# ------------------------------------------------
+# -------------CALENDAR EVENT ROUTES--------------
+# ------------------------------------------------
+
+#Template
+'''@app.route('/api/v1/calendar_event/', methods=[''])
+@jwt_required()
+def functionName():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        pass
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"message": "Not yet implemented."}), 501'''
+
+#Get all calendar events
+
+@app.route('/api/v1/calendar_event/', methods=["GET"])
+@jwt_required()
+def getCal_event():
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT *FROM CalendarEvent")
+        calevents = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}),500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(calevents)
+
+# Get all calendar events for a particular course
+@app.route('/api/v1/calendar_event/<string:c_code>', methods = ["GET"])
+@jwt_required()
+def getSpecificCal_event(c_code):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM CalendarEvent WHERE c_code = %s", (c_code,))
+        calevent = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"Event cannot be found at this time."}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(calevent)
+
+#  Create a calendar event
+
+@app.route('/api/v1/calendar_event/create', methods = ["POST"])
+@jwt_required()
+@Role.role_required("lecturer")
+def createCal_event():
+
+    #Get Calendar Event Information
+    content = request.json
+    
+    e_name = content['event_name']
+    event_details = content['details']
+    e_date = content['event_date']
+    c_code = content['c_code']
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute(
+            "INSERT INTO CalendarEvent (event_name, details, event_date, c_code )VALUES ( %s, %s, %s, %s)",
+            ( e_name, event_details, e_date, c_code))
+        new_eventid = cursor.lastrowid
+        conn.commit()
+
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"message": f"A database error occured: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    
+    return jsonify({"message":"Calendar Event created successfully.",
+    "Event ID": new_eventid,
+    "Event Name": e_name,
+    "Details": event_details,
+    "Event Date": e_date,
+    "Course Code": c_code }), 201
+         
+        
+#Update a Calendar Event for a particular course
+@app.route('/api/v1/calendar_event/update/<int:event_id>/<string:c_code>', methods = ["PUT"])
+@jwt_required()
+@Role.role_required("lecturer")
+def updateCal_event(event_id,c_code):
+
+    content = request.json
+    if not content:
+        return jsonify({"message": "Invalid request body"}), 400
+    
+
+    e_name = content['event_name']
+    event_details = content['details']
+    e_date = content['event_date']
+    
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        fields = []
+        values = []
+
+        if e_name is not None:
+            fields.append("event_name = %s")
+            values.append(e_name)
+
+        if event_details is not None:
+            fields.append("details = %s")
+            values.append(event_details)
+        
+        if e_date is not None:
+            fields.append("event_date = %s")
+            values.append(e_date)
+        
+        if not fields:
+            return jsonify({"message": "No fields provided to update."}), 400
+        
+        values.append(event_id)
+        values.append(c_code)
+        cursor.execute(f"UPDATE CalendarEvent SET {', '.join(fields)} WHERE event_ID = %s AND c_code = %s", tuple(values))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"message": "Event not found."}), 404
+        
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"message": f"A database error occured: {str(e)}"}),500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Event updated successfully.", 
+        "Event ID": event_id,
+        "Course Code": c_code
+    }), 200
+
+
+# Delete an event for a particular Course
+@app.route('/api/v1/calendar_event/delete/<int:event_id>/<string:c_code>', methods = ["DELETE"])
+@jwt_required()
+@Role.role_required("lecturer")
+def deleteCal_event(event_id,c_code):
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("DELETE FROM CalendarEvent WHERE event_ID = %s AND c_code = %s", (event_id, c_code))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"message": "Event not found."}), 404
+    
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
+    finally:
+        cursor.close()
+        conn.close()
+    return jsonify({"message": "Event deleted successfully."}), 200
+
+
+
+
+    
+
+
+
+
+
+
+
 # ------------------------------------------------
 # -----------------REPORT ROUTES------------------
 # ------------------------------------------------
