@@ -307,7 +307,6 @@ def getCourseMembers(c_code):
     })
 
 
-
 # Retrieve all courses for a particular student
 @app.route('/api/v1/student/<int:st_ID>/courses', methods=["GET"])
 @jwt_required()
@@ -534,22 +533,23 @@ def enrolStudent(c_code):
 @app.route('/api/v1/course/<string:c_code>/section/create', methods=['POST'])
 @jwt_required()
 @Role.role_required("lecturer")
-def createCourseSection():
+def createCourseSection(c_code):
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
 
     content = request.json
-    section_ID = content['section_ID']
     sect_title = content['sect_title']
     sect_name = content['sect_name']
     c_code = content['c_code']
 
     try:
         cursor.execute("""
-            INSERT INTO Section (section_ID, sect_title, sect_name, c_code)
-            VALUES (%s, %s, %s, %s)
-            """, (section_ID, sect_title, sect_name, c_code))
+            INSERT INTO Section (sect_title, sect_name, c_code)
+            VALUES (%s, %s, %s)
+            """, (sect_title, sect_name, c_code))
+        
+        new_id = cursor.lastrowid
 
         conn.commit()
         
@@ -562,10 +562,31 @@ def createCourseSection():
         conn.close()
 
     return jsonify({"message":"Course Section created successfully.",
-    "Section ID": section_ID,
+    "Section ID": new_id,
     "Section Title": sect_title,
     "Section Name": sect_name,
     "Course Code#": c_code }), 201
+
+
+# View all sections of a course
+@app.route('/api/v1/course/<string:c_code>/sections', methods=['GET'])
+@jwt_required()
+def getCourseSections(c_code):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM Section WHERE c_code = %s", (c_code,))
+        sections = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(sections)
 
 
 # View a course section
@@ -592,47 +613,79 @@ def getSpecificSection(c_code, section_ID):
         conn.close()
 
 
-# Lecturer adds content to a course section
-@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/add', methods=['POST'])
-@jwt_required()
+# Lecturer updates section of a course
+"""
+@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/update', methods=['PATCH'])
+@jwt_required
 @Role.role_required("lecturer")
-def createCourseSection():
+def updateCourseSection(c_code, section_ID):
+
+    content = request.json
+    sect_title = content['sect_title']
+    sect_name = content['sect_name']
+ 
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
 
-    content = request.json
-    con_id = content['con_id']
-    con_type = content['con_type']
-    con_desc = content['con_desc']
-    file_name = content['file_name']
-    sect_ID = content['sect_ID']
-
     try:
-        cursor.execute("""
-            INSERT INTO CourseContent (con_id, con_type, con_desc, file_name, sect_ID)
-            VALUES (%s, %s, %s, %s, %s, %s)
-            """, (con_id, con_type, con_desc, file_name, sect_ID))
+        fields = []
+        values = []
 
+        if sect_title is not None: 
+            fields.append("c_name = %s")
+            values.append(sect_title)
+
+        if sect_name is not None: 
+            fields.append("c_credits = %s")
+            values.append(sect_name)
+        
+        if not fields:
+            return jsonify({"message": "No fields provided to update."}), 400
+        
+        values.append(section_ID)
+        values.append(c_code)
+        
+        cursor.execute(f"UPDATE Section SET {', '.join(fields)} WHERE section_ID = %s AND c_code = %s", tuple(values))
         conn.commit()
+ 
+        if cursor.rowcount == 0:
+            return jsonify({"message": "Course Section not found."}), 404
         
     except Exception as e:
-        conn.rollback() 
+        conn.rollback()
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"message":"Course Section updated successfully.", "Course Code:": c_code }), 201
+"""
+
+# Lecturer deletes section
+@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/delete', methods=['DELETE'])
+@jwt_required()
+@Role.role_required("lecturer")
+def deleteCourseSection(c_code, section_ID):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("DELETE FROM Section WHERE c_code = %s AND section_ID = %s", (c_code, section_ID))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"message": "Course Section not found."}), 400
+
+    except Exception as e:
+        conn.rollback()
         return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
     
     finally:
         cursor.close()
         conn.close()
-
-    return jsonify({"message":"Content added to Course Section successfully.",
-    "Content ID": con_id,
-    "Content Type": con_type,
-    "Content Description": con_desc,
-    "File Attach": con_desc,
-    "Course Code#": c_code }), 201
-
-
-
+    return jsonify({"message": "Course Section deleted successfully."}), 201
 
 
     
@@ -688,7 +741,7 @@ def gradeAssignment(st_ID, a_ID):
 @app.route('/api/v1/course/<string:st_ID>/<string:a_ID>/submit', methods=['POST'])
 @jwt_required()
 @Role.role_required("student")
-def gradeAssignment(st_ID, a_ID):
+def submitAssignment(st_ID, a_ID):
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
@@ -751,6 +804,181 @@ def editAssignment(st_ID, a_ID):
 # ------------------------------------------------
 # -----------COURSE CONTENT ROUTES----------------
 # ------------------------------------------------
+
+
+# View all course content for a course
+@app.route('/api/v1/course/<string:c_code>/course-content', methods=['GET'])
+@jwt_required()
+def getCourseContent(c_code):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("""
+                    SELECT cc.*
+                    FROM CourseContent cc
+                    JOIN Section s ON cc.sect_ID = s.section_ID
+                    WHERE s.c_code = %s""", (c_code,))
+        
+        c_contents = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(c_contents)
+
+
+# View course content for a specific section
+@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/course-content', methods=['GET'])
+@jwt_required()
+def getCourseContentForSection(c_code, section_ID):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM CourseContent WHERE sect_ID = %s", (section_ID,))
+        
+        c_contents = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(c_contents)
+
+
+
+# Lecturer adds content to a course section
+@app.route('/api/v1/course/<string:c_code>/section/<int:sect_ID>/course-content/add', methods=['POST'])
+@jwt_required()
+@Role.role_required("lecturer")
+def addToCourseSection(c_code, sect_ID):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    content = request.json
+    con_type = content['con_type']
+    con_desc = content['con_desc']
+    file_name = content['file_name']
+
+    try:
+        cursor.execute("""
+            INSERT INTO CourseContent (con_type, con_desc, file_name, sect_ID)
+            VALUES (%s, %s, %s, %s)
+            """, (con_type, con_desc, file_name, sect_ID))
+        
+        new_id = cursor.lastrowid
+
+        conn.commit()
+        
+    except Exception as e:
+        conn.rollback() 
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"message":"Content added to Course Section successfully.",
+    "Content ID": new_id,
+    "Content Type": con_type,
+    "Content Description": con_desc,
+    "File Attach": con_desc,
+    "Section ID#": sect_ID }), 201
+
+
+# Lecturer updates course content within a section
+"""
+@app.route('/api/v1/course/<string:c_code>/course-contents/<int:con_id>', methods=['PATCH'])
+@jwt_required()
+@Role.role_required('lecturer')
+def updateCourseContent(c_code, con_id):
+
+    content = request.json
+    con_desc = content.get('con_desc')
+    file_name = content.get('file_name')
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        fields = []
+        values = []
+
+        if con_desc is not None:
+            fields.append("description = %s")
+            values.append(con_desc)
+
+        if file_name is not None:
+            fields.append("filename = %s")
+            values.append(file_name)
+
+        # If nothing was provided
+        if not fields:
+            return jsonify({"message": "No valid fields provided to update."}), 400
+        
+        sql = f"(UPDATE CourseContent cc
+            JOIN Section s ON cc.sect_ID = s.section_ID
+            SET {', '.join(fields)}
+            WHERE cc.content_ID = %s
+              AND s.c_code = %s)"
+
+        values.append(con_id)
+        values.append(c_code)
+    
+        cursor.execute(sql, tuple(values))
+        conn.commit()
+
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Course content updated successfully",
+        "content_ID": con_id,
+        "updated_fields": content
+    }), 200
+"""
+
+
+# Lecturer deletes course content
+@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/course-content/<int:con_id>/delete', methods=['DELETE'])
+@jwt_required()
+@Role.role_required("lecturer")
+def deleteCourseContent(c_code, section_ID, con_id):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("DELETE FROM CourseContent WHERE sect_ID = %s AND con_id = %s", (section_ID, con_id))
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({"message": "Course Content not found."}), 400
+
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
+    finally:
+        cursor.close()
+        conn.close()
+    return jsonify({"message": "Course Content deleted successfully."}), 201
+
 
 
 
