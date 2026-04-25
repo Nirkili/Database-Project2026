@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "bef2c0e1-8fae-4663-8f8e-ffd7991d3171",
+    "_postman_id": "cd069b30-ca0a-455c-8b17-dbc58ccd034e",
     "name": "COMP3161-Project",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "52985698",
-    "_collection_link": "https://go.postman.co/collection/52985698-bef2c0e1-8fae-4663-8f8e-ffd7991d3171?source=collection_link"
+    "_exporter_id": "53206658",
+    "_collection_link": "https://go.postman.co/collection/53206658-cd069b30-ca0a-455c-8b17-dbc58ccd034e?source=collection_link"
   },
   "item": [
     {
@@ -28,6 +28,19 @@
     },
     {
       "name": "Get CSRF-Token",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -57,7 +70,7 @@
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
+            "value": "{{csrf_token}}",
             "type": "text"
           }
         ],
@@ -97,7 +110,7 @@
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
+            "value": "{{csrf_token}}",
             "type": "text"
           }
         ],
@@ -139,7 +152,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{bearer_token}}",
               "type": "string"
             }
           ]
@@ -148,7 +161,7 @@
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
+            "value": "{{csrf_token}}",
             "type": "text"
           },
           {
@@ -190,7 +203,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{bearer_token}}",
               "type": "string"
             }
           ]
@@ -199,7 +212,7 @@
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaSCQ.tGtjzyRCjx6yhZpAH1mFHI9_J38",
+            "value": "{{csrf_token}}",
             "type": "text"
           }
         ],
@@ -285,7 +298,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{login_token}}",
               "type": "string"
             }
           ]
@@ -294,7 +307,7 @@
         "header": [
           {
             "key": "X-CSRFToken",
-            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
+            "value": "{{csrf_token}}",
             "type": "text"
           }
         ],
@@ -439,6 +452,452 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Get Course Sections",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/sections",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "sections"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Specific Course Section",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/section/700613",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "section",
+            "700613"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Course Section",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"sect_title\": \"Lecture\",\r\n    \"sect_name\": \"L02\",\r\n    \"c_code\": \"COMP2868\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000//api/v1/course/COMP2868/section/create",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "",
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "section",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Course Section",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/section/700689/delete",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "section",
+            "700689",
+            "delete"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Course Contents",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/course-content",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "course-content"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Course Content",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "   {\r\n        \"con_desc\": \"Week 2 lecture slides\",\r\n        \"con_type\": \"slide\",\r\n        \"file_name\": \"week2_overview.pdf\"\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/section/700690/course-content/add",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "section",
+            "700690",
+            "course-content",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update CourseContent",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"file_name\": \"week12_worksheet.pdf\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/course-contents/301319",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "course-contents",
+            "301319"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Course Content",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/section/700690/course-content/301479/delete",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "section",
+            "700690",
+            "course-content",
+            "301479",
+            "delete"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Course Content For A Section",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{login_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-CSRFToken",
+            "value": "{{csrf_token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/course/COMP2868/section/700690/course-content?X-CSRFToken={{csrf_token}}",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "5000",
+          "path": [
+            "",
+            "api",
+            "v1",
+            "course",
+            "COMP2868",
+            "section",
+            "700690",
+            "course-content"
+          ],
+          "query": [
+            {
+              "key": "X-CSRFToken",
+              "value": "{{csrf_token}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "event": [
@@ -463,6 +922,20 @@
           ""
         ]
       }
+    }
+  ],
+  "variable": [
+    {
+      "key": "csrf_token",
+      "value": ""
+    },
+    {
+      "key": "bearer_token",
+      "value": ""
+    },
+    {
+      "key": "login_token",
+      "value": ""
     }
   ]
 }
