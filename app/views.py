@@ -818,109 +818,141 @@ def createForum(c_code):
 # ------------------------------------------------
 # ---------------THREAD ROUTES-------------------
 # ------------------------------------------------
- 
+
 @app.route('/api/v1/forums/<int:forum_id>/threads', methods=['GET'])
 @jwt_required()
 def getThreads(forum_id):
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
- 
+
     try:
         cursor.execute("SELECT * FROM Thread WHERE forum_ID = %s AND parent_ID IS NULL", (forum_id,))
         threads = cursor.fetchall()
- 
+
     except Exception as e:
         return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
     finally:
         cursor.close()
         conn.close()
- 
+
     return jsonify(threads)
- 
- 
+
+
 @app.route('/api/v1/forums/<int:forum_id>/threads/create', methods=['POST'])
 @jwt_required()
 def createThread(forum_id):
     user_id = get_jwt_identity()
- 
+
     content = request.json
     title = content['title']
     body = content['content']
- 
+
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
- 
+
     try:
         cursor.execute(
             "INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID) VALUES (%s, %s, %s, %s, NULL)",
             (title, body, user_id, forum_id)
         )
+
         conn.commit()
         thread_id = cursor.lastrowid
- 
+
     except Exception as e:
         conn.rollback()
         return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
     finally:
         cursor.close()
         conn.close()
- 
+
     return jsonify({
         "message": "Thread created successfully.",
         "t_ID": thread_id,
         "title": title,
         "forum_ID": forum_id
     }), 201
- 
- 
+
+
 @app.route('/api/v1/threads/<int:thread_id>/reply', methods=['POST'])
 @jwt_required()
 def replyToThread(thread_id):
     user_id = get_jwt_identity()
- 
+
     content = request.json
     title = content.get('title', 'Re:')
     body = content['content']
     parent_id = content.get('parent_ID', thread_id)
- 
+
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
- 
+
     try:
+        # Check thread exists
         cursor.execute("SELECT forum_ID FROM Thread WHERE t_ID = %s", (thread_id,))
         parent = cursor.fetchone()
- 
-        if not parent:
+
+        if parent is None:
             return jsonify({"message": "Thread not found."}), 404
- 
+
         forum_id = parent['forum_ID']
- 
+
+        # Validate parent_ID exists
+        cursor.execute("SELECT t_ID FROM Thread WHERE t_ID = %s", (parent_id,))
+        valid = cursor.fetchone()
+
+        if valid is None:
+            return jsonify({"message": "Parent thread/reply not found."}), 404
+
         cursor.execute(
             "INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID) VALUES (%s, %s, %s, %s, %s)",
             (title, body, user_id, forum_id, parent_id)
         )
+
         conn.commit()
         reply_id = cursor.lastrowid
- 
+
     except Exception as e:
         conn.rollback()
         return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
     finally:
         cursor.close()
         conn.close()
- 
+
     return jsonify({
         "message": "Reply added successfully.",
         "t_ID": reply_id,
         "parent_ID": parent_id,
         "forum_ID": forum_id
     }), 201
- 
 
 
+# Get replies for a thread
+@app.route('/api/v1/threads/<int:thread_id>/replies', methods=['GET'])
+@jwt_required()
+def getReplies(thread_id):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT * FROM Thread WHERE parent_ID = %s", (thread_id,))
+        replies = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(replies)
 
 # ------------------------------------------------
 # -------------CALENDAR EVENT ROUTES--------------
