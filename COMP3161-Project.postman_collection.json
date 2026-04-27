@@ -234,307 +234,167 @@
       "response": []
     },
     {
-  "item": [
-    {
-      "name": "Get All Forums For Course",
+      "name": "Get Forums for Course",
       "request": {
+        "method": "GET",
+        "header": [],
         "auth": {
           "type": "bearer",
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{access_token}}",
               "type": "string"
             }
           ]
         },
-        "method": "GET",
-        "header": [],
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/course/COMP3469/forums",
+          "raw": "http://127.0.0.1:5000/api/v1/courses/COMP3469/forums",
           "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
+          "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "course",
-            "COMP3469",
-            "forums"
-          ]
+          "path": ["api", "v1", "courses", "COMP3469", "forums"]
         }
-      },
-      "response": []
+      }
     },
     {
       "name": "Create Forum",
       "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
         "method": "POST",
         "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
+          { "key": "Content-Type", "value": "application/json" }
         ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\": \"General Discussion\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/course/COMP3469/forums/create",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "course",
-            "COMP3469",
-            "forums",
-            "create"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get All Threads For Forum",
-      "request": {
         "auth": {
           "type": "bearer",
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{access_token}}",
               "type": "string"
             }
           ]
         },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"General Discussion\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/courses/COMP3469/forums",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "courses", "COMP3469", "forums"]
+        }
+      }
+    },
+    {
+      "name": "Get Threads for Forum",
+      "request": {
         "method": "GET",
         "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
         "url": {
           "raw": "http://127.0.0.1:5000/api/v1/forums/500145/threads",
           "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
+          "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "forums",
-            "500145",
-            "threads"
-          ]
+          "path": ["api", "v1", "forums", "500145", "threads"]
         }
-      },
-      "response": []
+      }
     },
     {
       "name": "Create Thread",
       "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
         "auth": {
           "type": "bearer",
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{access_token}}",
               "type": "string"
             }
           ]
         },
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"title\": \"When is Assignment 1 due?\",\n    \"content\": \"Can someone clarify the due date for Assignment 1?\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          "raw": "{\n  \"title\": \"Assignment 1\",\n  \"content\": \"When is it due?\"\n}"
         },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/forums/500145/threads/create",
+          "raw": "http://127.0.0.1:5000/api/v1/forums/500145/threads",
           "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
+          "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "forums",
-            "500145",
-            "threads",
-            "create"
-          ]
+          "path": ["api", "v1", "forums", "500145", "threads"]
         }
-      },
-      "response": []
+      }
     },
     {
-      "name": "Reply To Thread",
+      "name": "Get Replies for Thread",
       "request": {
+        "method": "GET",
+        "header": [],
         "auth": {
           "type": "bearer",
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{access_token}}",
               "type": "string"
             }
           ]
         },
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"title\": \"Re: When is Assignment 1 due?\",\n    \"content\": \"It is due on the 30th, check the course outline.\",\n    \"parent_ID\": 601032\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/threads/601032/reply",
+          "raw": "http://127.0.0.1:5000/api/v1/threads/601032/replies",
           "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
+          "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "threads",
-            "601032",
-            "reply"
-          ]
+          "path": ["api", "v1", "threads", "601032", "replies"]
         }
-      },
-      "response": []
+      }
     },
     {
-      "name": "Reply To Reply (Nested)",
+      "name": "Reply to Thread",
       "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
         "auth": {
           "type": "bearer",
           "bearer": [
             {
               "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
+              "value": "{{access_token}}",
               "type": "string"
             }
           ]
         },
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"title\": \"Re: Re: When is Assignment 1 due?\",\n    \"content\": \"Thanks, that helped!\",\n    \"parent_ID\": 601033\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          "raw": "{\n  \"content\": \"It's due next week\"\n}"
         },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/threads/601032/reply",
+          "raw": "http://127.0.0.1:5000/api/v1/threads/601032/replies",
           "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
+          "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "threads",
-            "601032",
-            "reply"
-          ]
+          "path": ["api", "v1", "threads", "601032", "replies"]
         }
-      },
-      "response": []
+      }
     }
-  ]
-}
     {
       "name": "Get Popular Courses",
       "request": {
