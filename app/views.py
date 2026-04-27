@@ -751,209 +751,168 @@ def editAssignment(st_ID, a_ID):
 # ------------------------------------------------
 # -----------COURSE CONTENT ROUTES----------------
 # ------------------------------------------------
+# ------------------------------------------------
+# ---------------- FORUM ROUTES -------------------
+# ------------------------------------------------
 
-# ------------------------------------------------
-# ---------------FORUM ROUTES---------------------
-# ------------------------------------------------
-@app.route('/api/v1/course/<string:c_code>/forums', methods=['GET'])
+@app.route('/api/v1/courses/<string:c_code>/forums', methods=['GET'])
 @jwt_required()
-def getForums(c_code):
-    connect = connection()
-    conn = connect.conn
+def get_forums(c_code):
+    conn = connection().conn
     cursor = conn.cursor(dictionary=True)
- 
+
     try:
         cursor.execute("SELECT * FROM Forum WHERE c_code = %s", (c_code,))
         forums = cursor.fetchall()
- 
+        return jsonify(forums), 200
+
     except Exception as e:
-        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+        return jsonify({"message": str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
- 
-    return jsonify(forums)
- 
- 
-@app.route('/api/v1/course/<string:c_code>/forums/create', methods=['POST'])
+
+
+@app.route('/api/v1/courses/<string:c_code>/forums', methods=['POST'])
 @jwt_required()
-def createForum(c_code):
-    claims = get_jwt()
-    role = claims.get("role")
- 
+def create_forum(c_code):
+    role = get_jwt().get("role")
+
     if role not in ("lecturer", "admin"):
-        return jsonify({"message": "Access unauthorized."}), 403
- 
-    content = request.json
-    title = content['title']
-    date_created = datetime.datetime.now().date()
- 
-    connect = connection()
-    conn = connect.conn
-    cursor = conn.cursor(dictionary=True)
- 
+        return jsonify({"message": "Unauthorized"}), 403
+
+    data = request.json
+    title = data.get("title")
+
+    conn = connection().conn
+    cursor = conn.cursor()
+
     try:
         cursor.execute(
-            "INSERT INTO Forum (title, date_created, c_code) VALUES (%s, %s, %s)",
-            (title, date_created, c_code)
+            "INSERT INTO Forum (title, date_created, c_code) VALUES (%s, NOW(), %s)",
+            (title, c_code)
         )
         conn.commit()
-        forum_id = cursor.lastrowid
- 
+
+        return jsonify({"message": "Forum created"}), 201
+
     except Exception as e:
         conn.rollback()
-        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+        return jsonify({"message": str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
- 
-    return jsonify({
-        "message": "Forum created successfully.",
-        "forum_ID": forum_id,
-        "title": title,
-        "c_code": c_code
-    }), 201
- 
- 
+
+
 # ------------------------------------------------
-# ---------------THREAD ROUTES-------------------
+# ---------------- THREAD ROUTES ------------------
 # ------------------------------------------------
 
 @app.route('/api/v1/forums/<int:forum_id>/threads', methods=['GET'])
 @jwt_required()
-def getThreads(forum_id):
-    connect = connection()
-    conn = connect.conn
+def get_threads(forum_id):
+    conn = connection().conn
     cursor = conn.cursor(dictionary=True)
 
     try:
-        cursor.execute("SELECT * FROM Thread WHERE forum_ID = %s AND parent_ID IS NULL", (forum_id,))
+        cursor.execute(
+            "SELECT * FROM Thread WHERE forum_ID = %s AND parent_ID IS NULL",
+            (forum_id,)
+        )
         threads = cursor.fetchall()
+        return jsonify(threads), 200
 
     except Exception as e:
-        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
-    
+        return jsonify({"message": str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
 
-    return jsonify(threads)
 
-
-@app.route('/api/v1/forums/<int:forum_id>/threads/create', methods=['POST'])
+@app.route('/api/v1/forums/<int:forum_id>/threads', methods=['POST'])
 @jwt_required()
-def createThread(forum_id):
+def create_thread(forum_id):
     user_id = get_jwt_identity()
+    data = request.json
 
-    content = request.json
-    title = content['title']
-    body = content['content']
-
-    connect = connection()
-    conn = connect.conn
-    cursor = conn.cursor(dictionary=True)
+    conn = connection().conn
+    cursor = conn.cursor()
 
     try:
         cursor.execute(
-            "INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID) VALUES (%s, %s, %s, %s, NULL)",
-            (title, body, user_id, forum_id)
+            """INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID)
+               VALUES (%s, %s, %s, %s, NULL)""",
+            (data["title"], data["content"], user_id, forum_id)
         )
 
         conn.commit()
-        thread_id = cursor.lastrowid
+        return jsonify({"message": "Thread created"}), 201
 
     except Exception as e:
         conn.rollback()
-        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
-    
+        return jsonify({"message": str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
 
-    return jsonify({
-        "message": "Thread created successfully.",
-        "t_ID": thread_id,
-        "title": title,
-        "forum_ID": forum_id
-    }), 201
 
+# ------------------------------------------------
+# ---------------- REPLIES ------------------------
+# ------------------------------------------------
 
-@app.route('/api/v1/threads/<int:thread_id>/reply', methods=['POST'])
-@jwt_required()
-def replyToThread(thread_id):
-    user_id = get_jwt_identity()
-
-    content = request.json
-    title = content.get('title', 'Re:')
-    body = content['content']
-    parent_id = content.get('parent_ID', thread_id)
-
-    connect = connection()
-    conn = connect.conn
-    cursor = conn.cursor(dictionary=True)
-
-    try:
-        # Check thread exists
-        cursor.execute("SELECT forum_ID FROM Thread WHERE t_ID = %s", (thread_id,))
-        parent = cursor.fetchone()
-
-        if parent is None:
-            return jsonify({"message": "Thread not found."}), 404
-
-        forum_id = parent['forum_ID']
-
-        # Validate parent_ID exists
-        cursor.execute("SELECT t_ID FROM Thread WHERE t_ID = %s", (parent_id,))
-        valid = cursor.fetchone()
-
-        if valid is None:
-            return jsonify({"message": "Parent thread/reply not found."}), 404
-
-        cursor.execute(
-            "INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID) VALUES (%s, %s, %s, %s, %s)",
-            (title, body, user_id, forum_id, parent_id)
-        )
-
-        conn.commit()
-        reply_id = cursor.lastrowid
-
-    except Exception as e:
-        conn.rollback()
-        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
-    
-    finally:
-        cursor.close()
-        conn.close()
-
-    return jsonify({
-        "message": "Reply added successfully.",
-        "t_ID": reply_id,
-        "parent_ID": parent_id,
-        "forum_ID": forum_id
-    }), 201
-
-
-# Get replies for a thread
 @app.route('/api/v1/threads/<int:thread_id>/replies', methods=['GET'])
 @jwt_required()
-def getReplies(thread_id):
-    connect = connection()
-    conn = connect.conn
+def get_replies(thread_id):
+    conn = connection().conn
     cursor = conn.cursor(dictionary=True)
 
     try:
-        cursor.execute("SELECT * FROM Thread WHERE parent_ID = %s", (thread_id,))
+        cursor.execute(
+            "SELECT * FROM Thread WHERE parent_ID = %s",
+            (thread_id,)
+        )
         replies = cursor.fetchall()
+        return jsonify(replies), 200
 
     except Exception as e:
-        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
-    
+        return jsonify({"message": str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
 
-    return jsonify(replies)
 
+@app.route('/api/v1/threads/<int:thread_id>/replies', methods=['POST'])
+@jwt_required()
+def reply_to_thread(thread_id):
+    user_id = get_jwt_identity()
+    data = request.json
+
+    conn = connection().conn
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            """INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID)
+               SELECT %s, %s, %s, forum_ID, %s
+               FROM Thread WHERE t_ID = %s""",
+            (data.get("title", "Re:"), data["content"], user_id, thread_id, thread_id)
+        )
+
+        conn.commit()
+        return jsonify({"message": "Reply added"}), 201
+
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"message": str(e)}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
 # ------------------------------------------------
 # -------------CALENDAR EVENT ROUTES--------------
 # ------------------------------------------------
