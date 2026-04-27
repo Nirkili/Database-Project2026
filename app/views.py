@@ -614,16 +614,16 @@ def getSpecificSection(c_code, section_ID):
 
 
 # Lecturer updates section of a course
-"""
-@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/update', methods=['PATCH'])
-@jwt_required
-@Role.role_required("lecturer")
+@app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/update', methods=['PUT'])
+@jwt_required()
+@Role.role_required('lecturer')
 def updateCourseSection(c_code, section_ID):
 
     content = request.json
-    sect_title = content['sect_title']
-    sect_name = content['sect_name']
- 
+
+    sect_title = content.get('sect_title')
+    sect_name = content.get('sect_name')
+    
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
@@ -632,25 +632,26 @@ def updateCourseSection(c_code, section_ID):
         fields = []
         values = []
 
-        if sect_title is not None: 
-            fields.append("c_name = %s")
+        if sect_title != "": 
+            fields.append("sect_title = %s")
             values.append(sect_title)
-
-        if sect_name is not None: 
-            fields.append("c_credits = %s")
-            values.append(sect_name)
         
+        if sect_name != "": 
+            fields.append("sect_name = %s")
+            values.append(sect_name)
+
+
         if not fields:
             return jsonify({"message": "No fields provided to update."}), 400
         
         values.append(section_ID)
         values.append(c_code)
-        
-        cursor.execute(f"UPDATE Section SET {', '.join(fields)} WHERE section_ID = %s AND c_code = %s", tuple(values))
+
+        cursor.execute(f"UPDATE Section SET {', '.join(fields)} WHERE section_ID = %s and c_code = %s", tuple(values))
         conn.commit()
  
         if cursor.rowcount == 0:
-            return jsonify({"message": "Course Section not found."}), 404
+            return jsonify({"message": "Course Section not found."}), 400
         
     except Exception as e:
         conn.rollback()
@@ -659,8 +660,9 @@ def updateCourseSection(c_code, section_ID):
         cursor.close()
         conn.close()
 
-    return jsonify({"message":"Course Section updated successfully.", "Course Code:": c_code }), 201
-"""
+    return jsonify({"message":"Course Section updated successfully.", "Section ID:": section_ID }), 201
+
+
 
 # Lecturer deletes section
 @app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/delete', methods=['DELETE'])
@@ -896,13 +898,14 @@ def addToCourseSection(c_code, sect_ID):
 
 
 # Lecturer updates course content within a section
-"""
-@app.route('/api/v1/course/<string:c_code>/course-contents/<int:con_id>', methods=['PATCH'])
+
+@app.route('/api/v1/course/<string:c_code>/section/<int:sect_ID>/course-contents/<int:con_id>', methods=['PUT'])
 @jwt_required()
 @Role.role_required('lecturer')
-def updateCourseContent(c_code, con_id):
+def updateCourseContent(c_code, sect_ID, con_id):
 
     content = request.json
+    con_type = content.get('con_type')
     con_desc = content.get('con_desc')
     file_name = content.get('file_name')
 
@@ -914,44 +917,39 @@ def updateCourseContent(c_code, con_id):
         fields = []
         values = []
 
-        if con_desc is not None:
-            fields.append("description = %s")
+        if con_type != "": 
+            fields.append("con_type = %s")
+            values.append(con_type)
+        
+        if con_desc != "": 
+            fields.append("con_desc = %s")
             values.append(con_desc)
 
-        if file_name is not None:
-            fields.append("filename = %s")
+        if file_name != "": 
+            fields.append("file_name = %s")
             values.append(file_name)
 
-        # If nothing was provided
         if not fields:
-            return jsonify({"message": "No valid fields provided to update."}), 400
+            return jsonify({"message": "No fields provided to update."}), 400
         
-        sql = f"(UPDATE CourseContent cc
-            JOIN Section s ON cc.sect_ID = s.section_ID
-            SET {', '.join(fields)}
-            WHERE cc.content_ID = %s
-              AND s.c_code = %s)"
-
         values.append(con_id)
-        values.append(c_code)
-    
-        cursor.execute(sql, tuple(values))
-        conn.commit()
+        values.append(sect_ID)
 
+        cursor.execute(f"UPDATE CourseContent SET {', '.join(fields)} WHERE con_id = %s AND sect_ID = %s", tuple(values))
+        conn.commit()
+ 
+        if cursor.rowcount == 0:
+            return jsonify({"message": "Course Content not found."}), 400
+        
     except Exception as e:
         conn.rollback()
         return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
-
     finally:
         cursor.close()
         conn.close()
 
-    return jsonify({
-        "message": "Course content updated successfully",
-        "content_ID": con_id,
-        "updated_fields": content
-    }), 200
-"""
+    return jsonify({"message":"Course Content updated successfully.", "Course Content Code:": con_id }), 201
+
 
 
 # Lecturer deletes course content
