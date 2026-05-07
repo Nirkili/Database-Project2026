@@ -777,14 +777,6 @@ def get_forums(c_code):
 @app.route('/api/v1/courses/<string:c_code>/forums', methods=['POST'])
 @jwt_required()
 def create_forum(c_code):
-    role = get_jwt().get("role")
-
-    if role not in ("lecturer", "admin"):
-        return jsonify({"message": "Unauthorized"}), 403
-
-    data = request.json
-    title = data.get("title")
-
     conn = connection().conn
     cursor = conn.cursor()
 
