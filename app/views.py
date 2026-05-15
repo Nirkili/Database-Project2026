@@ -596,7 +596,7 @@ def getSpecificSection(c_code, section_ID):
 @app.route('/api/v1/course/<string:c_code>/section/<int:section_ID>/add', methods=['POST'])
 @jwt_required()
 @Role.role_required("lecturer")
-def createCourseSection():
+def createCourseSectionContent():
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
@@ -688,7 +688,7 @@ def gradeAssignment(st_ID, a_ID):
 @app.route('/api/v1/course/<string:st_ID>/<string:a_ID>/submit', methods=['POST'])
 @jwt_required()
 @Role.role_required("student")
-def gradeAssignment(st_ID, a_ID):
+def submitAssignment(st_ID, a_ID):
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
