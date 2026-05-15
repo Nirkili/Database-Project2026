@@ -20,7 +20,7 @@ class RegisterStudent(FlaskForm):
     LName = StringField("Last Name", validators=[InputRequired()])
     
 class RegisterLecturer(FlaskForm):
-    id = StringField('ID Number', validators=[InputRequired(), Regexp(r'^100\d+$', message="Lecturer ID must contain only numbers")])
+    id = StringField('ID Number', validators=[InputRequired(), Regexp(r'^400\d+$', message="Lecturer ID must contain only numbers")])
     password = PasswordField("Password", validators=[InputRequired(), Length(min = 8)])
     email = StringField("Email", validators=[InputRequired(), Email()])
     fName = StringField("First Name", validators=[InputRequired()])

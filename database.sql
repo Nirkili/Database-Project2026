@@ -173,6 +173,7 @@ CREATE TABLE Submits(
 );
 
 /* Views */
+-- Written by Dana Archer
 
 CREATE VIEW PopularCourses AS 
 SELECT c_code, COUNT(st_ID) AS total_students
