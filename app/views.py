@@ -373,7 +373,7 @@ def createCourse():
     c_credits = content['c_credits']
     dept = content['dept']
     lect_ID = content['lect_ID']
-    admin_ID = content['admin_ID']
+    admin_ID = get_jwt_identity()
 
     connect = connection()
     conn = connect.conn
@@ -564,9 +564,19 @@ def createCourseSection(c_code):
 
     content = request.json
     sect_title = content['sect_title']
-    sect_name = content['sect_name']
+    sect_name = content['sect_name']    
 
     try:
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
+
         # Insert the new section into the Section table using the provided information
         cursor.execute("""
             INSERT INTO Section (sect_title, sect_name, c_code)
@@ -656,6 +666,16 @@ def updateCourseSection(c_code, section_ID):
     cursor = conn.cursor(dictionary=True)
 
     try:
+        # Check if lecturer teaches the course
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
         # Builds the Set clause by compiling a list of fields to update and their corresponding values based on the provided request body
         fields = []
         values = []
@@ -704,6 +724,17 @@ def deleteCourseSection(c_code, section_ID):
     cursor = conn.cursor(dictionary=True)
 
     try:
+        # Check if lecturer teaches the course
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
+
         cursor.execute("DELETE FROM Section WHERE c_code = %s AND section_ID = %s", (c_code, section_ID))
         conn.commit()
 
@@ -823,6 +854,17 @@ def createAssignment(c_code):
     due_date = content['a_due_date']
 
     try:
+         # Check if lecturer teaches the course
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
+
         # Creates an assignmet without a lecturer
         cursor.execute("INSERT INTO Assignment (a_desc, a_due_date, c_code) VALUES (%s, %s, %s);", (desc, due_date, c_code))
         new_id = cursor.lastrowid
@@ -882,7 +924,7 @@ def updateAssignment(c_code, a_ID):
             conn.commit()
             
         else:
-            return jsonify({"message": "Unauthorised - you are not authorized to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
     except Exception as e:
         conn.rollback() 
@@ -932,7 +974,7 @@ def gradeAssignment(c_code, st_ID, a_ID):
             conn.commit()
        
         else:
-            return jsonify({"message": "Unauthorized - you are not authorized to manage this course."}), 401
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
     except Exception as e:
         conn.rollback() 
@@ -1023,7 +1065,7 @@ def deleteAssignment(c_code, a_ID):
             else:
                 return jsonify({"message": "Assignment does not exist."}), 404
         else:
-            return jsonify({"message": "Unauthorized - you are not authorized to manage this course."}), 401
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
     except Exception as e:
         conn.rollback() 
@@ -1101,6 +1143,17 @@ def addToCourseSection(c_code, sect_ID):
     file_name = content['file_name']
 
     try:
+        # Check if lecturer teaches the course
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
+
         # Creates new content for a course section
         cursor.execute("""
             INSERT INTO CourseContent (con_type, con_desc, file_name, sect_ID)
@@ -1145,6 +1198,18 @@ def updateCourseContent(c_code, sect_ID, con_id):
     cursor = conn.cursor(dictionary=True)
 
     try:
+
+        # Check if lecturer teaches the course
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
+
         fields = []
         values = []
 
@@ -1194,6 +1259,18 @@ def deleteCourseContent(c_code, section_ID, con_id):
     cursor = conn.cursor(dictionary=True)
 
     try:
+
+        # Check if lecturer teaches the course
+        lect_ID = get_jwt_identity()
+
+        cursor.execute(
+            "SELECT lect_ID FROM Course WHERE lect_ID = %s AND c_code = %s",
+            (lect_ID, c_code)
+        )
+        if not cursor.fetchone():
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
+        
+
         cursor.execute("DELETE FROM CourseContent WHERE sect_ID = %s AND con_id = %s", (section_ID, con_id))
         conn.commit()
 
@@ -1304,7 +1381,7 @@ def createEvent(c_code):
             (lect_ID, c_code)
         )
         if not cursor.fetchone():
-            return jsonify({"message": "Unauthorized — you are not allowed to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
 
         cursor.execute(
             "INSERT INTO CalendarEvent (event_name, details, event_date, c_code) VALUES (%s, %s, %s, %s)",
@@ -1362,7 +1439,7 @@ def updateEvent(c_code, event_ID):
         )
         # Unauthorization error message
         if not cursor.fetchone():
-            return jsonify({"message": "Unauthorized — you are not allowed to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
         # Update procedure grante
         fields = []
@@ -1422,7 +1499,7 @@ def deleteEvent(c_code, event_ID):
             (lect_ID, c_code)
         )
         if not cursor.fetchone():
-            return jsonify({"message": "Unauthorized — you are not allowed to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
         # Deletes the specific calendar event
         cursor.execute("DELETE FROM CalendarEvent WHERE event_ID = %s AND c_code = %s", (event_ID, c_code))
@@ -1452,8 +1529,9 @@ def deleteEvent(c_code, event_ID):
   # Gets all forums for a course
 @app.route('/api/v1/course/<string:c_code>/forums', methods=['GET'])
 @jwt_required()
-def get_forums(c_code):
-    conn = connection().conn
+def getForums(c_code):
+    connect = connection()
+    conn = connect.conn
     cursor = conn.cursor(dictionary=True)
 
     try:
@@ -1473,7 +1551,7 @@ def get_forums(c_code):
 @app.route('/api/v1/course/<string:c_code>/forums', methods=['POST'])
 @jwt_required()
 @Role.role_required("lecturer")
-def create_forum(c_code):
+def createForum(c_code):
 
     lect_ID = get_jwt_identity()
     content = request.json
@@ -1483,8 +1561,10 @@ def create_forum(c_code):
     
 
 
-    conn = connection().conn
+    connect = connection()
+    conn = connect.conn
     cursor = conn.cursor(dictionary=True)
+
 
     try:
         # Check if lecturer teaches course
@@ -1493,7 +1573,7 @@ def create_forum(c_code):
             (lect_ID, c_code)
         )
         if not cursor.fetchone():
-            return jsonify({"message": "Unauthorized — you are not allowed to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
 
         # Insert forum
@@ -1522,7 +1602,7 @@ def create_forum(c_code):
 @app.route('/api/v1/course/<string:c_code>/forums/<int:forum_ID>/update', methods=['PUT'])
 @jwt_required()
 @Role.role_required('lecturer')
-def update_forum(c_code, forum_ID):
+def updateForum(c_code, forum_ID):
 
     lect_ID = get_jwt_identity()
     content = request.json
@@ -1543,7 +1623,7 @@ def update_forum(c_code, forum_ID):
         )
 
         if not cursor.fetchone():
-            return jsonify({"message": "Unauthorized — you are not allowed to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
         # Check if forum exists
         cursor.execute("SELECT forum_ID FROM Forum WHERE forum_ID = %s AND c_code = %s", (forum_ID, c_code))
@@ -1578,7 +1658,7 @@ def update_forum(c_code, forum_ID):
 @app.route('/api/v1/course/<string:c_code>/forums/<int:forum_ID>/delete', methods=['DELETE'])
 @jwt_required()
 @Role.role_required('lecturer')
-def delete_forum(c_code, forum_ID):
+def deleteForum(c_code, forum_ID):
 
     lect_ID = get_jwt_identity()
     
@@ -1594,7 +1674,7 @@ def delete_forum(c_code, forum_ID):
         )
 
         if not cursor.fetchone():
-            return jsonify({"message": "Unauthorized — you are not allowed to modify this course."}), 403
+            return jsonify({"message": "Unauthorized — you do not teach this course."}), 403
         
         # Check if forum exists
         cursor.execute("SELECT forum_ID FROM Forum WHERE forum_ID = %s AND c_code = %s", (forum_ID, c_code))
@@ -1633,7 +1713,7 @@ def delete_forum(c_code, forum_ID):
 # Gets threads for a forum post
 @app.route('/api/v1/forums/<int:forum_ID>/threads', methods=['GET'])
 @jwt_required()
-def get_threads(forum_ID):
+def getThreads(forum_ID):
 
     connect = connection()
     conn = connect.conn
@@ -1660,7 +1740,7 @@ def get_threads(forum_ID):
 # Creates thread for a forum post
 @app.route('/api/v1/forums/<int:forum_ID>/threads', methods=['POST'])
 @jwt_required()
-def create_thread(forum_ID):
+def createThread(forum_ID):
 
     jwt_id = get_jwt_identity()
     role = get_jwt().get("role")
@@ -1714,7 +1794,7 @@ def create_thread(forum_ID):
 
 @app.route('/api/v1/threads/<int:thread_ID>/update', methods=['PUT'])
 @jwt_required()
-def update_thread(thread_ID):
+def updateThread(thread_ID):
     jwt_id = get_jwt_identity()
     role   = get_jwt().get("role")
     data   = request.json
@@ -1776,9 +1856,9 @@ def update_thread(thread_ID):
         conn.close()
 
 
-@app.route('/api/v1/threads/<int:thread_id>/delete', methods=['DELETE'])
+@app.route('/api/v1/threads/<int:thread_ID>/delete', methods=['DELETE'])
 @jwt_required()
-def delete_thread(thread_id):          # was thread_ID — must match URL param
+def deleteThread(thread_ID):          
 
     jwt_id = get_jwt_identity()
     role   = get_jwt().get("role")
@@ -1803,12 +1883,12 @@ def delete_thread(thread_id):          # was thread_ID — must match URL param
         # Check thread belongs to this user
         cursor.execute(
             "SELECT t_ID FROM Thread WHERE t_ID = %s AND user_ID = %s",
-            (thread_id, user_ID)
+            (thread_ID, user_ID)
         )
         if not cursor.fetchone():
             return jsonify({"message": "Unauthorized or thread not found."}), 403
 
-        cursor.execute("DELETE FROM Thread WHERE t_ID = %s", (thread_id,))
+        cursor.execute("DELETE FROM Thread WHERE t_ID = %s", (thread_ID,))
         conn.commit()
 
         return jsonify({"message": "Thread deleted."}), 200
@@ -1826,9 +1906,9 @@ def delete_thread(thread_id):          # was thread_ID — must match URL param
 # ------------------------------------------------
 
 # Gets replies for threads
-@app.route('/api/v1/threads/<int:thread_id>/replies', methods=['GET'])
+@app.route('/api/v1/threads/<int:thread_ID>/replies', methods=['GET'])
 @jwt_required()
-def get_replies(thread_id):
+def getReplies(thread_ID):
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
@@ -1837,7 +1917,7 @@ def get_replies(thread_id):
         # Get replies
         cursor.execute(
             "SELECT * FROM Thread WHERE parent_ID = %s",
-            (thread_id,)
+            (thread_ID,)
         )
         replies = cursor.fetchall()
         return jsonify(replies), 200
@@ -1850,9 +1930,9 @@ def get_replies(thread_id):
         conn.close()
 
 # Adds a reply to a thread
-@app.route('/api/v1/threads/<int:thread_id>/replies', methods=['POST'])
+@app.route('/api/v1/threads/<int:thread_ID>/replies', methods=['POST'])
 @jwt_required()
-def reply_to_thread(thread_id):
+def createReply(thread_ID):
 
     jwt_id = get_jwt_identity()
     role   = get_jwt().get("role")
@@ -1883,7 +1963,7 @@ def reply_to_thread(thread_id):
         # Check parent thread exists and get its forum_ID
         cursor.execute(
             "SELECT t_ID, forum_ID FROM Thread WHERE t_ID = %s",
-            (thread_id,)
+            (thread_ID,)
         )
         parent = cursor.fetchone()
         if not parent:
@@ -1891,7 +1971,7 @@ def reply_to_thread(thread_id):
 
         cursor.execute(
             "INSERT INTO Thread (title, content, user_ID, forum_ID, parent_ID) VALUES (NULL, %s, %s, %s, %s)",
-            (content, user_ID, parent['forum_ID'], thread_id)
+            (content, user_ID, parent['forum_ID'], thread_ID)
         )
         conn.commit()
 
@@ -1909,7 +1989,7 @@ def reply_to_thread(thread_id):
 
 @app.route('/api/v1/threads/<int:thread_ID>/replies/<int:reply_ID>/update', methods=['PUT'])
 @jwt_required()
-def update_reply(thread_ID, reply_ID):
+def updateReply(thread_ID, reply_ID):
     jwt_id = get_jwt_identity()
     role   = get_jwt().get("role")
     content  = request.json
@@ -1960,7 +2040,7 @@ def update_reply(thread_ID, reply_ID):
 
 @app.route('/api/v1/threads/<int:thread_ID>/replies/<int:reply_ID>/delete', methods=['DELETE'])
 @jwt_required()
-def delete_reply(thread_ID, reply_ID):
+def deleteReply(thread_ID, reply_ID):
     jwt_id = get_jwt_identity()
     role   = get_jwt().get("role")
 
