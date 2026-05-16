@@ -751,6 +751,7 @@ def editAssignment(st_ID, a_ID):
 # ------------------------------------------------
 # -----------COURSE CONTENT ROUTES----------------
 # ------------------------------------------------
+
 # ------------------------------------------------
 # ---------------- FORUM ROUTES -------------------
 # ------------------------------------------------
@@ -797,6 +798,112 @@ def create_forum(c_code):
         cursor.close()
         conn.close()
 
+@app.route('/api/v1/forum/update/<int:forum_id>/<string:c_code>', methods=["PUT"])
+@jwt_required()
+@Role.role_required("lecturer")
+def updateForum(forum_id, c_code):
+
+    content = request.json
+
+    if not content:
+        return jsonify({
+            "message": "Invalid request body"
+        }), 400
+
+    title = content.get('title')
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        fields = []
+        values = []
+
+        if title is not None:
+            fields.append("title = %s")
+            values.append(title)
+
+        if not fields:
+            return jsonify({
+                "message": "No fields provided to update."
+            }), 400
+
+        values.append(forum_id)
+        values.append(c_code)
+
+        cursor.execute(f"""
+            UPDATE Forum
+            SET {', '.join(fields)}
+            WHERE forum_ID = %s
+            AND c_code = %s
+        """, tuple(values))
+
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "message": "Forum not found."
+            }), 404
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Forum updated successfully.",
+        "Forum ID": forum_id,
+        "Course Code": c_code
+    }), 200
+
+@app.route('/api/v1/forum/delete/<int:forum_id>/<string:c_code>', methods=["DELETE"])
+@jwt_required()
+@Role.role_required("lecturer")
+def deleteForum(forum_id, c_code):
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        cursor.execute("""
+            DELETE FROM Forum
+            WHERE forum_ID = %s
+            AND c_code = %s
+        """, (forum_id, c_code))
+
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "message": "Forum not found."
+            }), 404
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Forum deleted successfully."
+    }), 200
 
 # ------------------------------------------------
 # ---------------- THREAD ROUTES ------------------
@@ -851,6 +958,115 @@ def create_thread(forum_id):
         cursor.close()
         conn.close()
 
+@app.route('/api/v1/thread/update/<int:t_id>/<int:forum_id>', methods=["PUT"])
+@jwt_required()
+def updateThread(t_id, forum_id):
+
+    content = request.json
+
+    if not content:
+        return jsonify({
+            "message": "Invalid request body"
+        }), 400
+
+    title = content.get('title')
+    thread_content = content.get('content')
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        fields = []
+        values = []
+
+        if title is not None:
+            fields.append("title = %s")
+            values.append(title)
+
+        if thread_content is not None:
+            fields.append("content = %s")
+            values.append(thread_content)
+
+        if not fields:
+            return jsonify({
+                "message": "No fields provided to update."
+            }), 400
+
+        values.append(t_id)
+        values.append(forum_id)
+
+        cursor.execute(f"""
+            UPDATE Thread
+            SET {', '.join(fields)}
+            WHERE t_ID = %s
+            AND forum_ID = %s
+        """, tuple(values))
+
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "message": "Thread not found."
+            }), 404
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Thread updated successfully.",
+        "Thread ID": t_id,
+        "Forum ID": forum_id
+    }), 200
+
+@app.route('/api/v1/thread/delete/<int:t_id>/<int:forum_id>', methods=["DELETE"])
+@jwt_required()
+def deleteThread(t_id, forum_id):
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        cursor.execute("""
+            DELETE FROM Thread
+            WHERE t_ID = %s
+            AND forum_ID = %s
+        """, (t_id, forum_id))
+
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "message": "Thread not found."
+            }), 404
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Thread deleted successfully."
+    }), 200
 
 # ------------------------------------------------
 # ---------------- REPLIES ------------------------
@@ -877,6 +1093,41 @@ def get_replies(thread_id):
         cursor.close()
         conn.close()
 
+
+@app.route('/api/v1/thread/<int:thread_id>/reply', methods=["GET"])
+@jwt_required()
+def getReplies(thread_id):
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        cursor.execute("""
+            SELECT *
+            FROM Thread
+            WHERE parent_ID = %s
+        """, (thread_id,))
+
+        replies = cursor.fetchall()
+
+        if not replies:
+            return jsonify({
+                "message": "No replies found for this thread."
+            }), 404
+
+    except Exception as e:
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(replies), 200
 
 @app.route('/api/v1/threads/<int:thread_id>/replies', methods=['POST'])
 @jwt_required()
@@ -905,6 +1156,111 @@ def reply_to_thread(thread_id):
     finally:
         cursor.close()
         conn.close()
+
+@app.route('/api/v1/reply/update/<int:reply_id>/<int:parent_id>', methods=["PUT"])
+@jwt_required()
+def updateReply(reply_id, parent_id):
+
+    content = request.json
+
+    if not content:
+        return jsonify({
+            "message": "Invalid request body"
+        }), 400
+
+    reply_content = content.get('content')
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        fields = []
+        values = []
+
+        if reply_content is not None:
+            fields.append("content = %s")
+            values.append(reply_content)
+
+        if not fields:
+            return jsonify({
+                "message": "No fields provided to update."
+            }), 400
+
+        values.append(reply_id)
+        values.append(parent_id)
+
+        cursor.execute(f"""
+            UPDATE Thread
+            SET {', '.join(fields)}
+            WHERE t_ID = %s
+            AND parent_ID = %s
+        """, tuple(values))
+
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "message": "Reply not found."
+            }), 404
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Reply updated successfully.",
+        "Reply ID": reply_id,
+        "Parent Thread ID": parent_id
+    }), 200
+
+@app.route('/api/v1/reply/delete/<int:reply_id>/<int:parent_id>', methods=["DELETE"])
+@jwt_required()
+def deleteReply(reply_id, parent_id):
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+
+        cursor.execute("""
+            DELETE FROM Thread
+            WHERE t_ID = %s
+            AND parent_ID = %s
+        """, (reply_id, parent_id))
+
+        conn.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "message": "Reply not found."
+            }), 404
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "message": f"A database error occurred: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": "Reply deleted successfully."
+    }), 200
 # ------------------------------------------------
 # -------------CALENDAR EVENT ROUTES--------------
 # ------------------------------------------------
