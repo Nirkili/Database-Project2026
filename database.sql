@@ -142,7 +142,7 @@ CREATE TABLE CourseContent(
 CREATE TABLE Register_for(
     st_ID INT,
     c_code VARCHAR(15),
-    final_avg INT,
+    final_avg FLOAT,
 
     PRIMARY KEY(st_ID, c_code),
 
