@@ -233,27 +233,26 @@
       },
       "response": []
     },
-    {
-      "name": "Get Forums for Course",
+  {
+      "name": "Get Course Forums",
       "request": {
         "method": "GET",
-        "header": [],
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
-        },
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          }
+        ],
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/courses/COMP3469/forums",
+          "raw": "http://127.0.0.1:5000/api/v1/course/GEOL2504/forum",
           "protocol": "http",
           "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": ["api", "v1", "courses", "COMP3469", "forums"]
+          "path": ["api", "v1", "course", "GEOL2504", "forum"]
         }
       }
     },
@@ -262,52 +261,106 @@
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Content-Type", "value": "application/json" }
+          {
+            "key": "Authorization",
+            "value": "Bearer {{lect_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
         ],
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
-        },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"General Discussion\"\n}"
+          "raw": "{\n    \"title\": \"Midterm Revision Discussion\"\n}"
         },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/courses/COMP3469/forums",
+          "raw": "http://127.0.0.1:5000/api/v1/course/GEOL2504/forum/create",
           "protocol": "http",
           "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": ["api", "v1", "courses", "COMP3469", "forums"]
+          "path": ["api", "v1", "course", "GEOL2504", "forum", "create"]
         }
       }
     },
     {
-      "name": "Get Threads for Forum",
+      "name": "Update Forum",
       "request": {
-        "method": "GET",
-        "header": [],
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{lect_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Updated Midterm Discussion\"\n}"
         },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/forums/500145/threads",
+          "raw": "http://127.0.0.1:5000/api/v1/forum/update/500001/GEOL2504",
           "protocol": "http",
           "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": ["api", "v1", "forums", "500145", "threads"]
+          "path": ["api", "v1", "forum", "update", "500001", "GEOL2504"]
+        }
+      }
+    },
+    {
+      "name": "Delete Forum",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{lect_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/forum/delete/500001/GEOL2504",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "forum", "delete", "500001", "GEOL2504"]
+        }
+      }
+    },
+    {
+      "name": "Get Forum Threads",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/forum/500001/thread",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "forum", "500001", "thread"]
         }
       }
     },
@@ -316,82 +369,191 @@
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Content-Type", "value": "application/json" }
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
         ],
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
-        },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"Assignment 1\",\n  \"content\": \"When is it due?\"\n}"
+          "raw": "{\n    \"title\": \"Need Help Understanding Geophysics\",\n    \"content\": \"Can someone explain plate tectonics?\"\n}"
         },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/forums/500145/threads",
+          "raw": "http://127.0.0.1:5000/api/v1/forum/500001/thread/create",
           "protocol": "http",
           "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": ["api", "v1", "forums", "500145", "threads"]
+          "path": ["api", "v1", "forum", "500001", "thread", "create"]
         }
       }
     },
     {
-      "name": "Get Replies for Thread",
+      "name": "Update Thread",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Updated Geophysics Question\",\n    \"content\": \"I still do not understand tectonic plates.\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/thread/update/600001/500001",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "thread", "update", "600001", "500001"]
+        }
+      }
+    },
+    {
+      "name": "Delete Thread",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/thread/delete/600001/500001",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "thread", "delete", "600001", "500001"]
+        }
+      }
+    },
+    {
+      "name": "Get Thread Replies",
       "request": {
         "method": "GET",
-        "header": [],
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
-        },
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          }
+        ],
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/threads/601032/replies",
+          "raw": "http://127.0.0.1:5000/api/v1/thread/600001/reply",
           "protocol": "http",
           "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": ["api", "v1", "threads", "601032", "replies"]
+          "path": ["api", "v1", "thread", "600001", "reply"]
         }
       }
     },
     {
-      "name": "Reply to Thread",
+      "name": "Create Reply",
       "request": {
         "method": "POST",
         "header": [
-          { "key": "Content-Type", "value": "application/json" }
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
         ],
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{access_token}}",
-              "type": "string"
-            }
-          ]
-        },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"content\": \"It's due next week\"\n}"
+          "raw": "{\n    \"content\": \"Check the Week 8 lecture slides.\"\n}"
         },
         "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/threads/601032/replies",
+          "raw": "http://127.0.0.1:5000/api/v1/thread/600001/reply/create",
           "protocol": "http",
           "host": ["127", "0", "0", "1"],
           "port": "5000",
-          "path": ["api", "v1", "threads", "601032", "replies"]
+          "path": ["api", "v1", "thread", "600001", "reply", "create"]
+        }
+      }
+    },
+    {
+      "name": "Update Reply",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"content\": \"Updated reply about Week 8 lecture slides.\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/reply/update/600002/600001",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "reply", "update", "600002", "600001"]
+        }
+      }
+    },
+    {
+      "name": "Delete Reply",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{student_Token}}"
+          },
+          {
+            "key": "X-CSRFToken",
+            "value": "{{crsf_Token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:5000/api/v1/reply/delete/600002/600001",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "5000",
+          "path": ["api", "v1", "reply", "delete", "600002", "600001"]
         }
       }
     }
