@@ -1,0 +1,14 @@
+Please run sql files in the following order:
+  - database.sql
+  - admins.sql
+  - lecturers.sql
+  - students.sql
+  - courses.sql
+  - register_for.sql
+  - sections.sql
+  - course_content.sql
+  - assignments.sql
+  - submits.sql
+  - calendar_events.sql
+  - forums.sql
+  - threads.sql

@@ -3,11 +3,9 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt, get_j
 from .role import Role
 from .config import Config
 from .connection import connection
-from flask_wtf.csrf import generate_csrf
-from .form import RegisterLecturer,RegisterStudent, LoginAdminForm, LoginGenForm
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import app
-import datetime
+from datetime import datetime
 
 
 @app.route('/')
@@ -60,6 +58,7 @@ def loginGen():
     finally:
         cursor.close()
         conn.close()
+        
     
     #check_password_hash(user['pswd'], passw)
     # If user is found and password matches, create JWT token with user ID and role as claims
@@ -114,7 +113,7 @@ def loginAdmin():
         "token": access_token}), 200
         
     else:
-        return jsonify({"message":"Access unauthorized."}), 403
+        return jsonify({"message":"Access unauthorized."}), 401
 
 # Admin registers a student, creating an entry in both the User and Student tables
 @app.route('/api/v1/auth/student/register', methods = ["POST"])
@@ -137,6 +136,13 @@ def registerStudent():
     cursor = conn.cursor(dictionary = True)
     
     try:
+        # Check if student ID already exists
+        cursor.execute("SELECT st_ID FROM Student WHERE st_ID = %s", (st_ID, ))
+        if cursor.fetchone():
+            return jsonify({
+                "message": "Duplicate Entry: Student already exists."
+            }), 409
+        
         # Insert the new user into the User table and retrieve the generated user ID
         cursor.execute("INSERT INTO User (f_name, l_name, email, pswd, user_type) VALUES (%s, %s, %s, %s, %s)",(f_name, l_name, email, hash_pass, role))
         
@@ -185,6 +191,14 @@ def registerLect():
     cursor = conn.cursor(dictionary = True)
 
     try:
+        # Check if Lecturer ID already exists
+        cursor.execute("SELECT lect_ID FROM Lecturer WHERE lect_ID = %s", (lect_ID, ))
+        if cursor.fetchone():
+            return jsonify({
+                "message": "Duplicate Entry: Lecturer already exists."
+            }), 409
+        
+
         # Insert the new user into the User table and retrieve the generated user ID       
         cursor.execute("INSERT INTO User (f_name, l_name, email, pswd, user_type) VALUES (%s, %s, %s, %s, %s)",(f_name, l_name, email, hash_pass, role))
         
@@ -240,7 +254,7 @@ def getCourses():
         cursor.close()
         conn.close()
 
-    return jsonify(courses)
+    return jsonify(courses), 200
 
 # Get a specific course
 @app.route('/api/v1/course/<string:c_code>', methods = ["GET"])
@@ -368,18 +382,30 @@ def createCourse():
 
     # Get Course Information
     content = request.json
-    c_code = content['c_code']
-    c_name = content['c_name']
-    c_credits = content['c_credits']
-    dept = content['dept']
-    lect_ID = content['lect_ID']
+    c_code = content.get('c_code')
+    c_name = content.get('c_name')
+    c_credits = content.get('c_credits')
+    dept = content.get('dept')
+    lect_ID = content.get('lect_ID')
     admin_ID = get_jwt_identity()
+
+    if not all([c_code, c_name, c_credits, dept, lect_ID, admin_ID]):
+        return jsonify({
+            "message": "All fields are required."
+        }), 400
 
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
 
     try:
+        # Check if course already exists
+        cursor.execute("SELECT c_code FROM Course WHERE c_code = %s", (c_code,))
+        if cursor.fetchone():
+            return jsonify({
+                "message": "This course already exists"
+            }), 409
+
         # Insert the new course into the Course table using the provided information
         cursor.execute(
             "INSERT INTO Course (c_code, c_name, c_credits, dept, lect_ID, admin_ID) " "VALUES (%s, %s, %s, %s, %s, %s)", (c_code, c_name, c_credits, dept, lect_ID, admin_ID,))
@@ -529,6 +555,14 @@ def enrolStudent(c_code):
     cursor = conn.cursor(dictionary=True)
 
     try:
+        # Check if the student is already enrolled
+        cursor.execute("SELECT st_ID, c_code FROM Register_for WHERE st_ID = %s AND c_code = %s;", (st_ID, c_code))
+        if cursor.fetchone():
+            return jsonify({
+                "message": "You have already registered for this course."
+            }), 409
+
+
         cursor.execute("INSERT INTO Register_for (st_ID, c_code) VALUES (%s, %s);", (st_ID, c_code))
         conn.commit()
     except Exception as e:
@@ -1007,7 +1041,7 @@ def submitAssignment(c_code, a_ID):
         if not cursor.fetchone():
             return jsonify({"message": "You are not enrolled in this course."}), 403
         
-        # Get assignment
+        # Get assignment and check if it exists
         cursor.execute("SELECT a_ID, a_due_date FROM Assignment WHERE a_ID = %s AND c_code = %s",(a_ID, c_code))
         assignment = cursor.fetchone()
         
@@ -1036,6 +1070,53 @@ def submitAssignment(c_code, a_ID):
         conn.close() 
     return jsonify({"message": f"Assignment submitted for {c_code}."}), 201
 
+# Student removes their assignment submission
+@app.route('/api/v1/course/<string:c_code>/assignment/<string:a_ID>/submit', methods=['DELETE'])
+@jwt_required()
+@Role.role_required("student")
+def deleteSubmission(c_code, a_ID):
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    st_ID = get_jwt_identity()
+
+    try:
+        # Check student is enrolled in the course
+        cursor.execute("SELECT st_ID FROM Register_for WHERE st_ID = %s AND c_code = %s",(st_ID, c_code))
+        
+        if not cursor.fetchone():
+            return jsonify({"message": "You are not enrolled in this course."}), 403
+        
+        # Get assignment
+        cursor.execute("SELECT a_ID, a_due_date FROM Assignment WHERE a_ID = %s AND c_code = %s",(a_ID, c_code))
+        assignment = cursor.fetchone()
+        
+        if not assignment:
+            return jsonify({"message": "Assignment not found."}), 404
+
+        # Check if assignment due date has passed
+        if assignment['a_due_date'] < datetime.date.today():
+            return jsonify({"message": "Assignment deadline has passed. Submission cannot be removed."}), 400
+
+        # Check that a submission actually exists to delete
+        cursor.execute("SELECT a_ID FROM Submits WHERE a_ID = %s AND st_ID = %s", (a_ID, st_ID))
+        if not cursor.fetchone():
+            return jsonify({"message": "No submission found to remove."}), 404
+
+        # Delete the submission
+        cursor.execute("DELETE FROM Submits WHERE a_ID = %s AND st_ID = %s", (a_ID, st_ID))
+        conn.commit()
+
+        
+    except Exception as e:
+        conn.rollback() 
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close() 
+    return jsonify({"message": f"Submission deleted."}), 201
+        
 
 
 # Lecturer removes a specific assignment from a specific course
@@ -1344,6 +1425,44 @@ def getStudentEvents(st_ID):
 
     try:
         cursor.execute("SELECT ce.* FROM CalendarEvent ce JOIN Register_for r ON ce.c_code = r.c_code WHERE r.st_ID = %s ORDER BY ce.event_date ASC", (st_ID,))
+        events = cursor.fetchall()
+
+    except Exception as e:
+        return jsonify({"message": f"A database error occurred: {str(e)}"}),500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify(events), 200
+
+
+def isValidDate(date):
+    format = "%Y-%m-%d"
+    try:
+        datetime.strptime(date, format)
+        return True
+    except ValueError:
+        return False
+
+# Get Student Events for a particular date
+@app.route('/api/v1/student/<int:st_ID>/calendar_event/date', methods=["GET"])
+@jwt_required()
+def getParticularStudentEvent(st_ID):
+
+    content = request.json
+    date = content.get('date')
+
+    if not date or not isValidDate(date):
+        return jsonify({"message": "Please enter a valid date"}), 400
+    
+
+    
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT ce.* FROM CalendarEvent ce JOIN Register_for r ON ce.c_code = r.c_code WHERE r.st_ID = %s AND ce.event_date = %s ORDER BY ce.event_date ASC", (st_ID, date))
         events = cursor.fetchall()
 
     except Exception as e:
@@ -1745,8 +1864,8 @@ def createThread(forum_ID):
     jwt_id = get_jwt_identity()
     role = get_jwt().get("role")
     content = request.json
-    thread_title = content['title']
-    thread_content = content['content']
+    thread_title = content.get('title')
+    thread_content = content.get('content')
 
     if not thread_title or not thread_content:
         return jsonify({"message": "Title and content are required."}), 400
@@ -2182,13 +2301,6 @@ def getTopTenStudents():
     return jsonify(students)
 
 
-
-# ------------------------------------------------
-# -------------GENERATE CSRF TOKEN----------------
-# ------------------------------------------------
-
-# CSRF
-@app.route('/api/v1/csrf-token', methods=['GET'])
-def get_csrf():
-    return jsonify({'csrf_token': generate_csrf()})
+if __name__ == '__main__':
+    app.run(debug=True)
 

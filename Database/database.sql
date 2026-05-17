@@ -127,7 +127,7 @@ CREATE TABLE Section(
 );
 
 CREATE TABLE CourseContent(
-    con_id INT AUTO_INCREMENT PRIMARY KEY,
+    con_ID INT AUTO_INCREMENT PRIMARY KEY,
     con_type ENUM('link', 'file', 'slide'),
     con_desc TEXT,
     file_name VARCHAR(255),

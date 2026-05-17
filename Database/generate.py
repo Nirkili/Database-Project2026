@@ -2,6 +2,8 @@
 # The purpose of this python file is to generate sql files that contain the insert statements for this project.
 # Written by: Dana Archer, Khanez Wallace
 # AI Assistant: Claude AI, ChatGPT
+# AI was used to generate realistic course/department names/prefixs for the generators to choose from
+# AI was used to check and fix buggy functions
 
 import random
 import time
@@ -39,6 +41,7 @@ def write_batched(f, table_header, rows):
 used_admin_ids = set()
 used_emails    = set()
 
+# Written by: Dana Archer
 def admin(num_admins, next_ID):
     user_id_counter = next_ID
 
@@ -91,14 +94,14 @@ def admin(num_admins, next_ID):
         admin_inserts.append(f"({admin_id}, '{admin_code}', {user_id})")
         user_id_counter += 1
 
-    with open("admins.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/admins.sql", "w", encoding="utf-8") as f:
         f.write("-- USER INSERTS\n")
         write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
         f.write("-- ADMIN INSERTS\n")
         write_batched(f, "INSERT INTO Admin (admin_ID, admin_code, user_ID) VALUES", admin_inserts)
 
     # NEW
-    with open("admin_credentials.txt", "w", encoding="utf-8") as f:
+    with open("Database/Credentials/admin_credentials.txt", "w", encoding="utf-8") as f:
         f.write("user_id,password\n")
         f.write("\n".join(credentials))
 
@@ -117,7 +120,7 @@ departments = [
     "Computing", "Mathematics", "Chemistry",
     "Physics", "Biology", "Languages", "Geology"
 ]
-
+# Written by: Dana Archer
 def lecturers(num_lect, next_ID):
     user_id_counter = next_ID
 
@@ -170,14 +173,14 @@ def lecturers(num_lect, next_ID):
         lecturer_inserts.append(f"({lect_id}, '{dept}', {user_id})")
         user_id_counter += 1
 
-    with open("lecturers.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/lecturers.sql", "w", encoding="utf-8") as f:
         f.write("-- USER INSERTS\n")
         write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
         f.write("-- LECTURER INSERTS\n")
         write_batched(f, "INSERT INTO Lecturer (lect_ID, dept, user_ID) VALUES", lecturer_inserts)
 
     # NEW
-    with open("lecturer_credentials.txt", "w", encoding="utf-8") as f:
+    with open("Database/Credentials/lecturer_credentials.txt", "w", encoding="utf-8") as f:
         f.write("user_id,password\n")
         f.write("\n".join(credentials))
 
@@ -191,7 +194,7 @@ def lecturers(num_lect, next_ID):
 
 used_st_ids    = set()
 used_st_emails = set()
-
+# Written by: Dana Archer
 def students(num_students, next_id):
     user_id_counter = next_id
 
@@ -234,14 +237,14 @@ def students(num_students, next_id):
         user_id_counter += 1
 
     print(f"  Writing students.sql...")
-    with open("students.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/students.sql", "w", encoding="utf-8") as f:
         f.write("-- USER INSERTS\n")
         write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
         f.write("-- STUDENT INSERTS\n")
         write_batched(f, "INSERT INTO Student (st_ID, user_ID) VALUES", student_inserts)
 
     # NEW
-    with open("student_credentials.txt", "w", encoding="utf-8") as f:
+    with open("Database/Credentials/student_credentials.txt", "w", encoding="utf-8") as f:
         f.write("user_id,password\n")
         f.write("\n".join(credentials))
 
@@ -288,7 +291,7 @@ name_patterns = [
     "Principles of {}", "Advanced {}", "Applied {}"
 ]
 
-
+# Written by: Dana Archer
 def courses(num_courses, lect_by_dept, admin_ids):
     course_inserts = []
     course_codes   = []
@@ -296,6 +299,32 @@ def courses(num_courses, lect_by_dept, admin_ids):
     lect_load      = {lect_id: 0 for dept in lect_by_dept for lect_id in lect_by_dept[dept]}
     generated      = 0
 
+    # Ensure every lecturer is assigned at least one course
+    for dept, lect_ids in lect_by_dept.items():
+        for lect_id in lect_ids:
+            while True:
+                prefix      = random.choice(prefix_by_department[dept])
+                num         = random.randint(1000, 3500)
+                course_code = f"{prefix}{num}"
+                if course_code in used_codes:
+                    continue
+                used_codes.add(course_code)
+
+                subject     = random.choice(subjects_by_prefix[prefix])
+                pattern     = random.choice(name_patterns)
+                course_name = pattern.format(subject)
+                credits     = 3
+                admin_id    = random.choice(admin_ids)
+
+                course_inserts.append(
+                    f"('{course_code}', '{course_name}', {credits}, '{dept}', {lect_id}, {admin_id})"
+                )
+                course_codes.append(course_code)
+                lect_load[lect_id] += 1
+                generated += 1
+                break
+
+    # Continue random generation for remaining courses
     while generated < num_courses:
         dept        = random.choice(list(prefix_by_department.keys()))
         prefix      = random.choice(prefix_by_department[dept])
@@ -328,7 +357,7 @@ def courses(num_courses, lect_by_dept, admin_ids):
         course_codes.append(course_code)
         generated += 1
 
-    with open("courses.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/courses.sql", "w", encoding="utf-8") as f:
         f.write("-- COURSE INSERTS\n")
         write_batched(f, "INSERT INTO Course (c_code, c_name, c_credits, dept, lect_ID, admin_ID) VALUES", course_inserts)
 
@@ -450,7 +479,7 @@ def calendar_events(course_codes):
                 f"('{name.replace(chr(39), chr(39)*2)}', '{detail}', '{event_date}', '{c_code}')"
             )
 
-    with open("calendar_events.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/calendar_events.sql", "w", encoding="utf-8") as f:
         f.write("-- CALENDAR EVENT INSERTS\n")
         write_batched(f, "INSERT INTO CalendarEvent (event_name, details, event_date, c_code) VALUES", inserts)
 
@@ -493,7 +522,7 @@ def sections(course_codes):
             section_meta.append((sid, sect_title, c_code))
             inserts.append(f"({sid}, '{sect_title}', '{sect_name}', '{c_code}')")
 
-    with open("sections.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/sections.sql", "w", encoding="utf-8") as f:
         f.write("-- SECTION INSERTS\n")
         write_batched(f, "INSERT INTO Section (section_ID, sect_title, sect_name, c_code) VALUES", inserts)
 
@@ -580,7 +609,7 @@ def course_content(section_meta):
                 f"'{file_name.replace(chr(39), chr(39)*2)}', {sect_id})"
             )
 
-    with open("course_content.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/course_content.sql", "w", encoding="utf-8") as f:
         f.write("-- COURSE CONTENT INSERTS\n")
         write_batched(f, "INSERT INTO CourseContent (con_id, con_type, con_desc, file_name, sect_ID) VALUES", inserts)
 
@@ -774,7 +803,7 @@ def assignments(course_codes):
 
         assignments_by_course[c_code] = course_a_ids
 
-    with open("assignments.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/assignments.sql", "w", encoding="utf-8") as f:
         f.write("-- ASSIGNMENT INSERTS\n")
         write_batched(f, "INSERT INTO Assignment (a_desc, a_due_date, c_code) VALUES", inserts)
 
@@ -823,7 +852,7 @@ def forums(course_codes):
             forum_meta.append((fid, c_code))
             inserts.append(f"({fid}, '{title.replace(chr(39), chr(39)*2)}', '{date_created}', '{c_code}')")
 
-    with open("forums.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/forums.sql", "w", encoding="utf-8") as f:
         f.write("-- FORUM INSERTS\n")
         write_batched(f, "INSERT INTO Forum (forum_ID, title, date_created, c_code) VALUES", inserts)
 
@@ -957,7 +986,7 @@ def threads(forum_meta, enrolled_by_course, lecturer_user_ids):
                 f"({tid}, '{safe_title}', '{safe_content}', {user_id}, {forum_id}, {parent_str})"
             )
 
-    with open("threads.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/threads.sql", "w", encoding="utf-8") as f:
         f.write("-- THREAD INSERTS\n")
         write_batched(f, "INSERT INTO Thread (t_ID, title, content, user_ID, forum_ID, parent_ID) VALUES", inserts)
 
@@ -1013,7 +1042,7 @@ def register_for(student_st_ids, student_user_ids, course_codes):
         for c_code in under:
             while course_counts[c_code] < 10 and under_cap:
                 idx = random.choice(under_cap)
-                if c_code not in student_courses[idx]:
+                if c_code not in student_courses[idx] and student_load[idx] < 6:
                     student_courses[idx].add(c_code)
                     student_load[idx] += 1
                     course_counts[c_code] += 1
@@ -1037,7 +1066,7 @@ def register_for(student_st_ids, student_user_ids, course_codes):
         grades_by_student[st_id] = grade_list
 
     print(f"  Writing register_for.sql ({len(inserts):,} rows)...")
-    with open("register_for.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/register_for.sql", "w", encoding="utf-8") as f:
         f.write("-- REGISTER_FOR INSERTS\n")
         write_batched(f, "INSERT INTO Register_for (st_ID, c_code, final_avg) VALUES", inserts)
 
@@ -1082,7 +1111,7 @@ def submits(grades_by_student, assignments_by_course):
                 inserts.append(f"('{sub_date}', {grade}, {a_id}, {st_id})")
 
     print(f"  Writing submits.sql ({len(inserts):,} rows)...")
-    with open("submits.sql", "w", encoding="utf-8") as f:
+    with open("Database/Inserts/submits.sql", "w", encoding="utf-8") as f:
         f.write("-- SUBMITS INSERTS\n")
         write_batched(f, "INSERT INTO Submits (sub_date, grade, a_ID, st_ID) VALUES", inserts)
 
@@ -1107,7 +1136,7 @@ if __name__ == "__main__":
     course_codes = courses(200, lecturers_by_dept, admin_ids)
 
     print("Generating students (1,000)...")
-    student_user_ids, student_st_ids = students(1000, 56)
+    student_user_ids, student_st_ids = students(150000, 56)
 
     print("Generating calendar events...")
     calendar_events(course_codes)
