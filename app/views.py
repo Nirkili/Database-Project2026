@@ -5,7 +5,7 @@ from .config import Config
 from .connection import connection
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import app
-from datetime import datetime
+from datetime import datetime, date
 
 
 @app.route('/')
@@ -36,7 +36,7 @@ def loginGen():
     user_id = None
     
     try:
-        cursor.execute("SELECT l.lect_ID, u.pswd, u.user_type FROM Lecturer l JOIN User u ON l.user_ID = u.user_ID WHERE l.lect_ID = %s", (id,))
+        cursor.execute("SELECT l.lect_ID, u.pswd, u.user_type, u.f_name, u.l_name FROM Lecturer l JOIN User u ON l.user_ID = u.user_ID WHERE l.lect_ID = %s", (id,))
         user = cursor.fetchone()
         
         # If no lecturer found, check if it's a student
@@ -44,7 +44,7 @@ def loginGen():
             role = "lecturer"
             user_id = user['lect_ID']
         else:
-            cursor.execute("SELECT s.st_ID, u.pswd FROM Student s JOIN User u ON s.user_ID = u.user_ID WHERE s.st_ID = %s", (id,))
+            cursor.execute("SELECT s.st_ID, u.pswd, u.f_name, u.l_name FROM Student s JOIN User u ON s.user_ID = u.user_ID WHERE s.st_ID = %s", (id,))
             
             user = cursor.fetchone()
             
@@ -63,13 +63,15 @@ def loginGen():
     #check_password_hash(user['pswd'], passw)
     # If user is found and password matches, create JWT token with user ID and role as claims
     if user and check_password_hash(user['pswd'], passw):
+        user_name = f"{user['f_name']} {user['l_name']}"
         # Create JWT token with user ID and role as claims
         access_token = create_access_token(
             identity=str(user_id),
             additional_claims={"role": role}
         )
 
-        return jsonify({"message":"Login successful.",
+        return jsonify({
+            "message": f"Login successful. Welcome {user_name}",
         "token": access_token}), 200
 
     return jsonify({"message":"Access unauthorized."}), 401
@@ -90,7 +92,7 @@ def loginAdmin():
     
     try:
         # Check if admin exists with the provided ID and admin code, and retrieve the password hash
-        cursor.execute("SELECT a.admin_ID, u.pswd, a.admin_code FROM Admin a JOIN User u ON a.user_ID = u.user_ID WHERE a.admin_ID = %s AND a.admin_code = %s", (id, code,))
+        cursor.execute("SELECT a.admin_ID, u.pswd, u.f_name, u.l_name, a.admin_code FROM Admin a JOIN User u ON a.user_ID = u.user_ID WHERE a.admin_ID = %s AND a.admin_code = %s", (id, code,))
         
         user = cursor.fetchone()
 
@@ -103,13 +105,14 @@ def loginAdmin():
 
     #check_password_hash(user['password'], passw)
     if user and check_password_hash(user['pswd'], passw):
+        user_name = f"{user['f_name']} {user['l_name']}"
         # Create JWT token with user ID and role as claims
         access_token = create_access_token(
             identity=str(id),
             additional_claims={"role": "admin"}
         )
         
-        return jsonify({"message":"Login successful.",
+        return jsonify({"message": f"Login successful. Welcome {user_name}",
         "token": access_token}), 200
         
     else:
@@ -500,7 +503,7 @@ def deleteCourse(c_code):
 
         # If no rows were affected, the course was not found
         if cursor.rowcount == 0:
-            return jsonify({"message": "Course not found."}), 400
+            return jsonify({"message": "Course not found."}), 404
 
     except Exception as e:
         conn.rollback()
@@ -509,7 +512,7 @@ def deleteCourse(c_code):
     finally:
         cursor.close()
         conn.close()
-    return jsonify({"message": "Course deleted successfully."}), 200
+    return jsonify({"message": f"Course {c_code} deleted successfully."}), 200
 
 
 # Admin assigns lecturer to a course
@@ -784,7 +787,7 @@ def updateCourseSection(c_code, section_ID):
         cursor.close()
         conn.close()
 
-    return jsonify({"message":"Course Section updated successfully.", "Section ID:": section_ID }), 201
+    return jsonify({"message":"Course Section updated successfully.", "Section ID:": section_ID, "Title": sect_title, "Name": sect_name}), 201
 
     
 
@@ -883,13 +886,15 @@ def getSpecificAssignment(c_code, a_ID):
 
 
 # Gets upcoming assignments for a student
-@app.route('/api/v1/student/<int:st_ID>/assignments/upcoming', methods=['GET'])
+@app.route('/api/v1/student/assignments/upcoming', methods=['GET'])
 @jwt_required()
 @Role.role_required("student")
-def getUpcomingAssignments(st_ID):
+def getUpcomingAssignments():
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
+
+    st_ID = get_jwt_identity()
 
     try:
        cursor.execute("""
@@ -1071,7 +1076,7 @@ def addSubmission(c_code, a_ID):
 
     # Get student ID
     st_ID = get_jwt_identity()
-    sub_date = datetime.datetime.now()
+    sub_date = datetime.now()
 
     try:
 
@@ -1090,7 +1095,7 @@ def addSubmission(c_code, a_ID):
         
         
         # Check if assignment due date has passed
-        if assignment['a_due_date'] < datetime.date.today():
+        if assignment['a_due_date'] < date.today():
             return jsonify({"message": "Assignment deadline has passed."}), 400
         
         # Make sure student has not already submitted
@@ -1136,7 +1141,7 @@ def deleteSubmission(c_code, a_ID):
             return jsonify({"message": "Assignment not found."}), 404
 
         # Check if assignment due date has passed
-        if assignment['a_due_date'] < datetime.date.today():
+        if assignment['a_due_date'] < date.today():
             return jsonify({"message": "Assignment deadline has passed. Submission cannot be removed."}), 400
 
         # Check that a submission actually exists to delete
@@ -1456,9 +1461,13 @@ def getCourseEvents(c_code):
 
 
 # Get Student Events course
-@app.route('/api/v1/student/<int:st_ID>/calendar_event', methods=["GET"])
+@app.route('/api/v1/student/calendar_event', methods=["GET"])
 @jwt_required()
-def getStudentEvents(st_ID):
+@Role.role_required('student')
+def getStudentEvents():
+
+    st_ID = get_jwt_identity()
+
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
@@ -1485,10 +1494,13 @@ def isValidDate(date):
         return False
 
 # Get Student Events for a particular date
-@app.route('/api/v1/student/<int:st_ID>/calendar_event/date', methods=["GET"])
+@app.route('/api/v1/student/calendar_event/date', methods=["GET"])
 @jwt_required()
-def getParticularStudentEvent(st_ID):
+@Role.role_required('student')
+def getParticularStudentEvent():
 
+    
+    st_ID = get_jwt_identity()
     content = request.json
     date = content.get('date')
 
@@ -1939,7 +1951,9 @@ def createThread(forum_ID):
         conn.commit()
         return jsonify({
             "message": "Thread created",
-            "t_ID": cursor.lastrowid
+            "t_ID": cursor.lastrowid,
+            "title": thread_title,
+            "content": thread_content
         }), 201
 
     except Exception as e:
@@ -2005,7 +2019,7 @@ def updateThread(thread_ID):
             tuple(values)
         )
         conn.commit()
-        return jsonify({"message": "Thread updated.", "t_ID": thread_ID}), 200
+        return jsonify({"message": "Thread updated.", "t_ID": thread_ID, "title": thread_title, "content": thread_content}), 200
 
     except Exception as e:
         conn.rollback()
@@ -2136,7 +2150,7 @@ def createReply(thread_ID):
 
         return jsonify({
             "message": "Reply added.", 
-            "t_ID": cursor.lastrowid}), 201
+            "t_ID": cursor.lastrowid, "content":content}), 201
 
     except Exception as e:
         conn.rollback()
@@ -2187,7 +2201,7 @@ def updateReply(thread_ID, reply_ID):
             (thread_content, reply_ID)
         )
         conn.commit()
-        return jsonify({"message": "Reply updated.", "t_ID": reply_ID}), 200
+        return jsonify({"message": "Reply updated.", "t_ID": reply_ID, "content": content}), 200
 
     except Exception as e:
         conn.rollback()
@@ -2246,6 +2260,7 @@ def deleteReply(thread_ID, reply_ID):
 # Gets the courses that have more than 50 students whom have registered to it
 @app.route('/api/v1/course/popular', methods = ['GET'])
 @jwt_required()
+@Role.role_required('admin')
 def getPopCourses():
     connect = connection()
     conn = connect.conn
@@ -2267,6 +2282,7 @@ def getPopCourses():
 # Gets the students who are registered to more than 5 courses
 @app.route('/api/v1/student/busy', methods=['GET'])
 @jwt_required()
+@Role.role_required('admin')
 def getBusyStudents():
     connect = connection()
     conn = connect.conn
@@ -2286,6 +2302,7 @@ def getBusyStudents():
 # Gets the lecturers who are registered to more than 3 courses
 @app.route('/api/v1/lecturer/busy', methods=['GET'])
 @jwt_required()
+@Role.role_required('admin')
 def getBusyLecturers():
     connect = connection()
     conn = connect.conn
@@ -2305,6 +2322,7 @@ def getBusyLecturers():
 # Gets the ten courses with the most amount of students 
 @app.route('/api/v1/course/topTen', methods=['GET'])
 @jwt_required()
+@Role.role_required('admin')
 def getTopTenCourses():
     connect = connection()
     conn = connect.conn
@@ -2324,6 +2342,7 @@ def getTopTenCourses():
 # Gets the top ten students with the highest average scores
 @app.route('/api/v1/student/topTen', methods=['GET'])
 @jwt_required()
+@Role.role_required('admin')
 def getTopTenStudents():
     connect = connection()
     conn = connect.conn

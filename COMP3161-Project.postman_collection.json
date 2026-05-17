@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "bef2c0e1-8fae-4663-8f8e-ffd7991d3171",
     "name": "COMP3161-Project",
+    "description": "Completed by: Dana Archer",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "52985698",
     "_collection_link": "https://go.postman.co/collection/52985698-bef2c0e1-8fae-4663-8f8e-ffd7991d3171?source=collection_link"
@@ -14,16 +15,10 @@
           "name": "LoginAdmin",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"20533\",\r\n    \"password\": \"i^9V7navF&\",\r\n    \"code\":\"ADM-8716\"\r\n}",
+              "raw": "{\r\n    \"id\": \"20856\",\r\n    \"password\": \"4A7(mSxp($\",\r\n    \"code\":\"ADM-7967\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -55,16 +50,10 @@
           "name": "LoginLecturer",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"400144\",\r\n    \"password\": \"HjI9V1to#)\"\r\n}",
+              "raw": "{\r\n    \"id\": \"400611\",\r\n    \"password\": \"*S83YFr*_D\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -95,16 +84,10 @@
           "name": "Login Student",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"620000000\",\r\n    \"password\": \"5q4Q1o&f_^\"\r\n}",
+              "raw": "{\r\n    \"id\": \"620000001\",\r\n    \"password\": \"hvuOMQ1Sk0\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -145,16 +128,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"lect_ID\": \"400362\",\r\n    \"f_name\": \"Mark\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"mark.baker@lect.mona.edu\",\r\n    \"pswd\": \"eFdb2CA6\",\r\n    \"dept\": \"4\"\r\n\r\n}",
+              "raw": "{\r\n    \"lect_ID\": \"400363\",\r\n    \"f_name\": \"Marty\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"mary.baker@lect.mona.edu\",\r\n    \"pswd\": \"eFdb2CA6\",\r\n    \"dept\": \"4\"\r\n\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -196,21 +173,15 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"st_ID\": \"620163454\",\r\n    \"f_name\": \"Donald\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"donald.baker@mymona.edu\",\r\n    \"pswd\": \"eFdb2CA6\"\r\n\r\n}"
+              "raw": "{\r\n    \"st_ID\": \"620163455\",\r\n    \"f_name\": \"Donald\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"donald.baker@mymona.edu\",\r\n    \"pswd\": \"eFdb2CA6\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/auth/student/register",
@@ -252,13 +223,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/course",
               "protocol": "http",
@@ -292,15 +257,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199",
               "protocol": "http",
               "host": [
                 "127",
@@ -313,7 +272,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386"
+                "COMP2199"
               ]
             }
           },
@@ -333,13 +292,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/students",
               "protocol": "http",
@@ -372,25 +325,19 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{admin_Token}}",
+                  "value": "{{lect_Token}}",
                   "type": "string"
                 }
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/members",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/members",
               "protocol": "http",
               "host": [
                 "127",
@@ -403,7 +350,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "members"
               ]
             }
@@ -427,19 +374,13 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/lecturer/400317/courses",
+              "raw": "http://127.0.0.1:5000/api/v1/lecturer/400611/courses",
               "protocol": "http",
               "host": [
                 "127",
@@ -452,7 +393,7 @@
                 "api",
                 "v1",
                 "lecturer",
-                "400317",
+                "400611",
                 "courses"
               ]
             }
@@ -476,19 +417,13 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/student/620000000/courses",
+              "raw": "http://127.0.0.1:5000/api/v1/student/620000001/courses",
               "protocol": "http",
               "host": [
                 "127",
@@ -501,7 +436,7 @@
                 "api",
                 "v1",
                 "student",
-                "620000000",
+                "620000001",
                 "courses"
               ]
             }
@@ -522,16 +457,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"c_code\":\"Math2221\",\r\n    \"c_name\":\"Stastics for Computer Science II\",\r\n    \"c_credits\":3,\r\n    \"dept\": \"Mathematics\",\r\n    \"lect_ID\":400778,\r\n    \"admin_ID\":20533\r\n}",
+              "raw": "{\r\n    \"c_code\":\"Math2220\",\r\n    \"c_name\":\"Stastics for Computer Science I\",\r\n    \"c_credits\":\"3\",\r\n    \"dept\": \"Mathematics\",\r\n    \"lect_ID\":400611\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -572,13 +501,7 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"c_code\":\"MATH2220\",\r\n    \"c_name\":\"Stastics for Computer Science II\",\r\n    \"c_credits\": \"\",\r\n    \"dept\": \"\"\r\n}",
@@ -610,52 +533,6 @@
           "response": []
         },
         {
-          "name": "Delete Course",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{admin_Token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
-            },
-            "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/Math2220/delete",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "5000",
-              "path": [
-                "api",
-                "v1",
-                "course",
-                "Math2220",
-                "delete"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "Assign Lecturer",
           "request": {
             "auth": {
@@ -669,16 +546,10 @@
               ]
             },
             "method": "PATCH",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"lect_ID\": 400153\r\n}",
+              "raw": "{\r\n    \"lect_ID\": 400909\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -707,7 +578,7 @@
           "response": []
         },
         {
-          "name": "Student Registers Course",
+          "name": "Enrol Student",
           "request": {
             "auth": {
               "type": "bearer",
@@ -720,13 +591,7 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -756,6 +621,82 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Unenrol Student",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/MATH2220/enrol",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "MATH2220",
+                "enrol"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/MATH2220/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "MATH2220",
+                "delete"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -776,15 +717,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CRSFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section",
               "protocol": "http",
               "host": [
                 "127",
@@ -797,7 +732,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section"
               ]
             }
@@ -812,21 +747,15 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{student_Token}}",
+                  "value": "{{lect_Token}}",
                   "type": "string"
                 }
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CRSFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700273",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558",
               "protocol": "http",
               "host": [
                 "127",
@@ -839,9 +768,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700273"
+                "700558"
               ]
             }
           },
@@ -861,13 +790,7 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"sect_title\": \"Lecture\",\r\n    \"sect_name\": \"LO2\",\r\n    \"c_code\": \"CHIN1386\"\r\n}",
@@ -878,7 +801,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/create",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/create",
               "protocol": "http",
               "host": [
                 "127",
@@ -891,7 +814,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
                 "create"
               ]
@@ -913,13 +836,7 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRF-Token",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"sect_title\": \"Tutorial\",\r\n    \"sect_name\": \"TO2\" \r\n}",
@@ -930,7 +847,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700690/update",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700700/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -943,9 +860,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700690",
+                "700700",
                 "update"
               ]
             }
@@ -966,15 +883,9 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700690/delete",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700700/delete",
               "protocol": "http",
               "host": [
                 "127",
@@ -987,9 +898,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700690",
+                "700700",
                 "delete"
               ]
             }
@@ -1015,15 +926,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/course-content",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/course-content",
               "protocol": "http",
               "host": [
                 "127",
@@ -1036,7 +941,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "course-content"
               ]
             }
@@ -1051,21 +956,15 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{student_Token}}",
+                  "value": "{{lect_Token}}",
                   "type": "string"
                 }
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CRSFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700274/course-content",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content",
               "protocol": "http",
               "host": [
                 "127",
@@ -1078,9 +977,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700274",
+                "700558",
                 "course-content"
               ]
             }
@@ -1101,16 +1000,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"con_type\": \"Link\",\r\n    \"con_desc\": \"Video of math solution\",\r\n    \"file_name\": \"linkkkkkkkkk\"\r\n}",
+              "raw": "{\r\n    \"con_type\": \"Link\",\r\n    \"con_desc\": \"Video of math solution\",\r\n    \"file_name\": \"math.com\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1118,7 +1011,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700274/course-content/add",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content/add",
               "protocol": "http",
               "host": [
                 "127",
@@ -1131,9 +1024,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700274",
+                "700558",
                 "course-content",
                 "add"
               ]
@@ -1155,16 +1048,10 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"con_type\": \"Link\",\r\n    \"con_desc\": \"Video of man\",\r\n    \"file_name\": \"bug\"\r\n}",
+              "raw": "{\r\n    \"con_type\": \"Link\",\r\n    \"con_desc\": \"Video of a bug\",\r\n    \"file_name\": \"bug.com\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1172,7 +1059,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700274/course-content/301476/update",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content/301483/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -1185,11 +1072,11 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700274",
+                "700558",
                 "course-content",
-                "301476",
+                "301483",
                 "update"
               ]
             }
@@ -1210,15 +1097,9 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/section/700274/course-content/301476/delete",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content/301483/delete",
               "protocol": "http",
               "host": [
                 "127",
@@ -1231,11 +1112,11 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "section",
-                "700274",
+                "700558",
                 "course-content",
-                "301476",
+                "301483",
                 "delete"
               ]
             }
@@ -1255,7 +1136,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{student_Token}}",
+                  "value": "{{lect_Token}}",
                   "type": "string"
                 }
               ]
@@ -1263,7 +1144,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment",
               "protocol": "http",
               "host": [
                 "127",
@@ -1276,7 +1157,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment"
               ]
             }
@@ -1291,21 +1172,15 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{lect_Token}}, {{student_Token}}",
+                  "value": "{{lect_Token}}",
                   "type": "string"
                 }
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment/721",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/547",
               "protocol": "http",
               "host": [
                 "127",
@@ -1318,9 +1193,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment",
-                "721"
+                "547"
               ]
             }
           },
@@ -1342,7 +1217,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/student/620000000/assignments/upcoming",
+              "raw": "http://127.0.0.1:5000/api/v1/student/assignments/upcoming",
               "protocol": "http",
               "host": [
                 "127",
@@ -1355,7 +1230,6 @@
                 "api",
                 "v1",
                 "student",
-                "620000000",
                 "assignments",
                 "upcoming"
               ]
@@ -1377,16 +1251,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"a_desc\": \"Write a letter to your father in Chinese\",\r\n    \"a_due_date\": \"2026-05-21\"\r\n}",
+              "raw": "{\r\n    \"a_desc\": \"Create tic-tac-toe in JavaScript\",\r\n    \"a_due_date\": \"2026-05-21\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1394,7 +1262,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment/create",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/create",
               "protocol": "http",
               "host": [
                 "127",
@@ -1407,7 +1275,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment",
                 "create"
               ]
@@ -1429,16 +1297,10 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"lect_ID\": 400144,\r\n    \"a_desc\": \"Write a letter to your brother in Chinese\",\r\n    \"a_due_date\": \"2026-05-21\"\r\n}",
+              "raw": "{\r\n    \"a_desc\": \"Create a tic-tac-toe game in Python\",\r\n    \"a_due_date\": \"2026-05-21\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1446,7 +1308,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment/720/update",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -1459,9 +1321,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment",
-                "720",
+                "692",
                 "update"
               ]
             }
@@ -1482,13 +1344,7 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"grade\": \"85\"\r\n}",
@@ -1499,7 +1355,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment/721/620000000/grade",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/620000001/grade",
               "protocol": "http",
               "host": [
                 "127",
@@ -1512,10 +1368,10 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment",
-                "721",
-                "620000000",
+                "692",
+                "620000001",
                 "grade"
               ]
             }
@@ -1523,7 +1379,7 @@
           "response": []
         },
         {
-          "name": "Submit Assignment",
+          "name": "Add Submission",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1536,13 +1392,7 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "",
@@ -1553,7 +1403,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment/721/submit",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/submit",
               "protocol": "http",
               "host": [
                 "127",
@@ -1566,9 +1416,47 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment",
-                "721",
+                "692",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Submisson",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/submit",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "692",
                 "submit"
               ]
             }
@@ -1589,13 +1477,7 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"lect_ID\": 400153\r\n}",
@@ -1606,7 +1488,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/assignment/721/remove",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/remove",
               "protocol": "http",
               "host": [
                 "127",
@@ -1619,9 +1501,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "assignment",
-                "721",
+                "692",
                 "remove"
               ]
             }
@@ -1647,13 +1529,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/calendar_event/",
               "protocol": "http",
@@ -1688,15 +1564,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/calendar_event",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event",
               "protocol": "http",
               "host": [
                 "127",
@@ -1709,7 +1579,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "calendar_event"
               ]
             }
@@ -1718,6 +1588,9 @@
         },
         {
           "name": "Get Student's Events",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -1730,15 +1603,18 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
               }
-            ],
+            },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/student/620000000/calendar_event",
+              "raw": "http://127.0.0.1:5000/api/v1/student/calendar_event",
               "protocol": "http",
               "host": [
                 "127",
@@ -1751,8 +1627,55 @@
                 "api",
                 "v1",
                 "student",
-                "620000000",
                 "calendar_event"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Events for Date",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"date\": \"2025-03-21\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/calendar_event/date",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "calendar_event",
+                "date"
               ]
             }
           },
@@ -1772,16 +1695,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\r\n    \"event_name\": \"Drop-In Help Session 3\" ,\r\n    \"event_details\": \"Yeah guys, ya'll are cooked frrr\",\r\n    \"event_date\": \"2025-09-21\"\r\n}",
+              "raw": "{\r\n\r\n    \"event_name\": \"Drop-In Help Session\" ,\r\n    \"event_details\": \"Tutorial Practice\",\r\n    \"event_date\": \"2025-09-22\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1789,7 +1706,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/calendar_event/create",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event/create",
               "protocol": "http",
               "host": [
                 "127",
@@ -1802,7 +1719,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "calendar_event",
                 "create"
               ]
@@ -1824,16 +1741,10 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\r\n    \"event_name\": \"Drop-In Help Session 3.5\" ,\r\n    \"event_details\": \"Yeah guys, ya'll are cooked frrr\",\r\n    \"event_date\": \"2025-09-21\"\r\n}",
+              "raw": "{\r\n\r\n    \"event_name\": \"Drop-In Help Session\" ,\r\n    \"event_details\": \"Past Papers\",\r\n    \"event_date\": \"2025-09-21\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1841,7 +1752,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/calendar_event/618/update",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event/609/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -1854,9 +1765,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "calendar_event",
-                "618",
+                "609",
                 "update"
               ]
             }
@@ -1877,19 +1788,13 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": ""
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/calendar_event/618/delete",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event/609/delete",
               "protocol": "http",
               "host": [
                 "127",
@@ -1902,9 +1807,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "calendar_event",
-                "618",
+                "609",
                 "delete"
               ]
             }
@@ -1930,15 +1835,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/forums",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums",
               "protocol": "http",
               "host": [
                 "127",
@@ -1951,7 +1850,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "forums"
               ]
             }
@@ -1972,16 +1871,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"General Discussion II\"\r\n}",
+              "raw": "{\r\n  \"title\": \"General Discussion I\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1989,7 +1882,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/forums",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums",
               "protocol": "http",
               "host": [
                 "127",
@@ -2002,7 +1895,7 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "forums"
               ]
             }
@@ -2023,16 +1916,10 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"General Death\"\r\n}",
+              "raw": "{\r\n  \"title\": \"General Questions\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2040,7 +1927,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/forums/500388/update",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums/500447/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -2053,9 +1940,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "forums",
-                "500388",
+                "500447",
                 "update"
               ]
             }
@@ -2076,19 +1963,13 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"title\": \"General Discussion\"\r\n}"
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/forums/500388/delete",
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums/500447/delete",
               "protocol": "http",
               "host": [
                 "127",
@@ -2101,9 +1982,9 @@
                 "api",
                 "v1",
                 "course",
-                "CHIN1386",
+                "COMP2199",
                 "forums",
-                "500388",
+                "500447",
                 "delete"
               ]
             }
@@ -2124,15 +2005,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/forums/500149/threads",
+              "raw": "http://127.0.0.1:5000/api/v1/forums/500367/threads",
               "protocol": "http",
               "host": [
                 "127",
@@ -2145,7 +2020,7 @@
                 "api",
                 "v1",
                 "forums",
-                "500149",
+                "500367",
                 "threads"
               ]
             }
@@ -2153,7 +2028,7 @@
           "response": []
         },
         {
-          "name": "Create Threads",
+          "name": "Create Thread",
           "request": {
             "auth": {
               "type": "bearer",
@@ -2166,16 +2041,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"title\": \"When is assignment 4 due?\",\r\n    \"content\": \"What is up with Sir dawg\"\r\n}",
+              "raw": "{\r\n    \"title\": \"When is assignment 4 due?\",\r\n    \"content\": \"I'm scared\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2183,7 +2052,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/forums/500149/threads",
+              "raw": "http://127.0.0.1:5000/api/v1/forums/500367/threads",
               "protocol": "http",
               "host": [
                 "127",
@@ -2196,7 +2065,7 @@
                 "api",
                 "v1",
                 "forums",
-                "500149",
+                "500367",
                 "threads"
               ]
             }
@@ -2217,16 +2086,10 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"title\": \"When is assignment 5 due?\",\r\n    \"content\": \"What is up with Sir dawg\"\r\n}",
+              "raw": "{\r\n    \"title\": \"When is assignment 4 due?\",\r\n    \"content\": \"Seriously...\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2234,7 +2097,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/threads/602710/update",
+              "raw": "http://127.0.0.1:5000/api/v1/threads/603150/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -2247,7 +2110,7 @@
                 "api",
                 "v1",
                 "threads",
-                "602710",
+                "603150",
                 "update"
               ]
             }
@@ -2268,15 +2131,9 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/threads/602710/delete",
+              "raw": "http://127.0.0.1:5000/api/v1/threads/603150/delete",
               "protocol": "http",
               "host": [
                 "127",
@@ -2289,7 +2146,7 @@
                 "api",
                 "v1",
                 "threads",
-                "602710",
+                "603150",
                 "delete"
               ]
             }
@@ -2310,15 +2167,9 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/threads/601066/replies",
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies",
               "protocol": "http",
               "host": [
                 "127",
@@ -2331,7 +2182,7 @@
                 "api",
                 "v1",
                 "threads",
-                "601066",
+                "602578",
                 "replies"
               ]
             }
@@ -2352,16 +2203,10 @@
               ]
             },
             "method": "POST",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\r\n    \"content\": \"Nah bro bro.\"\r\n}",
+              "raw": "{\r\n\r\n    \"content\": \"It's easy bro.\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2369,7 +2214,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/threads/601066/replies",
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies",
               "protocol": "http",
               "host": [
                 "127",
@@ -2382,7 +2227,7 @@
                 "api",
                 "v1",
                 "threads",
-                "601066",
+                "602578",
                 "replies"
               ]
             }
@@ -2403,16 +2248,10 @@
               ]
             },
             "method": "PUT",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\r\n    \"content\": \"Nah girly.\"\r\n}",
+              "raw": "{\r\n\r\n    \"content\": \"It's difficult.\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2420,7 +2259,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/threads/601066/replies/602711/update",
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies/603152/update",
               "protocol": "http",
               "host": [
                 "127",
@@ -2433,9 +2272,9 @@
                 "api",
                 "v1",
                 "threads",
-                "601066",
+                "602578",
                 "replies",
-                "602711",
+                "603152",
                 "update"
               ]
             }
@@ -2456,15 +2295,9 @@
               ]
             },
             "method": "DELETE",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "http://127.0.0.1:5000/api/v1/threads/601066/replies/602711/delete",
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies/603152/delete",
               "protocol": "http",
               "host": [
                 "127",
@@ -2477,9 +2310,9 @@
                 "api",
                 "v1",
                 "threads",
-                "601066",
+                "602578",
                 "replies",
-                "602711",
+                "603152",
                 "delete"
               ]
             }
@@ -2505,13 +2338,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/course/popular",
               "protocol": "http",
@@ -2549,13 +2376,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
@@ -2597,13 +2418,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
@@ -2642,13 +2457,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/course/topTen",
               "protocol": "http",
@@ -2683,13 +2492,7 @@
               ]
             },
             "method": "GET",
-            "header": [
-              {
-                "key": "X-CSRFToken",
-                "value": "{{crsf_Token}}",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "url": {
               "raw": "http://127.0.0.1:5000/api/v1/student/topTen",
               "protocol": "http",
@@ -2727,30 +2530,6 @@
             "1"
           ],
           "port": "5000"
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get CSRF-Token",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/csrf-token",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "csrf-token"
-          ]
         }
       },
       "response": []

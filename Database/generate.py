@@ -195,7 +195,7 @@ def lecturers(num_lect, next_ID):
 used_st_ids    = set()
 used_st_emails = set()
 # Written by: Dana Archer
-def students(num_students, next_id):
+'''def students(num_students, next_id):
     user_id_counter = next_id
 
     def generate_email(first_name, last_name, i):
@@ -244,6 +244,79 @@ def students(num_students, next_id):
         write_batched(f, "INSERT INTO Student (st_ID, user_ID) VALUES", student_inserts)
 
     # NEW
+    with open("Database/Credentials/student_credentials.txt", "w", encoding="utf-8") as f:
+        f.write("user_id,password\n")
+        f.write("\n".join(credentials))
+
+    print(f"students.sql generated successfully! ({num_students:,} students, {time.time()-t0:.1f}s)")
+    return student_user_ids, student_st_ids'''
+
+def students(num_students, next_id):
+    import secrets
+    import string
+
+    _chars = string.ascii_letters + string.digits + "!@#$%"
+
+    def fast_password(length=10):
+        return ''.join(secrets.choice(_chars) for _ in range(length))
+
+    # Pre-generate name lists
+    print("  Pre-generating names...")
+    first_names = []
+    last_names  = []
+    for i in range(num_students):
+        if i % 10000 == 0 and i > 0:
+            print(f"    ...{i:,} names generated")
+        first_names.append(fake.first_name())
+        last_names.append(fake.last_name())
+    print(f"  Done! {num_students:,} names generated.")
+
+    # Pre-generate + hash a password pool
+    print("  Pre-hashing password pool...")
+    POOL_SIZE = 500
+    raw_passwords = [fast_password() for _ in range(POOL_SIZE)]
+    password_pool = []
+    for i, pw in enumerate(raw_passwords):
+        if i % 100 == 0 and i > 0:
+            print(f"    ...{i} passwords hashed")
+        password_pool.append((pw, generate_password_hash(pw)))
+    print(f"  Done! {POOL_SIZE} passwords hashed.")
+
+    user_inserts     = []
+    student_inserts  = []
+    student_user_ids = []
+    student_st_ids   = []
+    credentials      = []
+
+    t0 = time.time()
+    print("  Generating student records...")
+    for i in range(num_students):
+        if i % 10000 == 0 and i > 0:
+            print(f"  ...{i:,} students generated ({time.time()-t0:.1f}s)")
+
+        f_name, l_name          = first_names[i], last_names[i]
+        password, password_hash = password_pool[i % POOL_SIZE]
+        email   = f"{f_name}.{l_name}{i}@my.mona.edu".lower()
+        st_id   = 620000000 + i
+        user_id = next_id + i
+
+        student_user_ids.append(user_id)
+        student_st_ids.append(st_id)
+        credentials.append(f"{user_id},{password}")
+
+        user_inserts.append(
+            f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'student')"
+        )
+        student_inserts.append(f"({st_id}, {user_id})")
+
+    print(f"  Writing students.sql...")
+    with open("Database/Inserts/students.sql", "w", encoding="utf-8") as f:
+        f.write("-- USER INSERTS\n")
+        write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
+        f.write("-- STUDENT INSERTS\n")
+        write_batched(f, "INSERT INTO Student (st_ID, user_ID) VALUES", student_inserts)
+
+    print(f"  Writing student_credentials.txt...")
     with open("Database/Credentials/student_credentials.txt", "w", encoding="utf-8") as f:
         f.write("user_id,password\n")
         f.write("\n".join(credentials))
@@ -1135,8 +1208,8 @@ if __name__ == "__main__":
     print("Generating courses...")
     course_codes = courses(200, lecturers_by_dept, admin_ids)
 
-    print("Generating students (1,000)...")
-    student_user_ids, student_st_ids = students(150000, 56)
+    print("Generating students (100,000)...")
+    student_user_ids, student_st_ids = students(100000, 56)
 
     print("Generating calendar events...")
     calendar_events(course_codes)
