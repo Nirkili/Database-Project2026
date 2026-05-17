@@ -574,10 +574,50 @@ def enrolStudent(c_code):
         conn.close()
 
     return jsonify({
-        "message": "Registered for course successfully.",
+        "message": f"Enrolled in {c_code} successfully.",
         "Course Code": c_code,
         "Student ID": st_ID
     }), 201
+
+
+
+@app.route('/api/v1/course/<string:c_code>/enrol', methods=["DELETE"])
+@jwt_required()
+@Role.role_required("student")
+def unenrolStudent(c_code):
+    st_ID = get_jwt_identity()
+
+    connect = connection()
+    conn = connect.conn
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Check if the student is already enrolled
+        cursor.execute("SELECT st_ID, c_code FROM Register_for WHERE st_ID = %s AND c_code = %s;", (st_ID, c_code))
+        if not cursor.fetchone():
+            return jsonify({
+                "message": "You are not enrolled in this course."
+            }), 404
+
+
+        cursor.execute("DELETE FROM Register_for WHERE st_ID = %s AND c_code = %s;", (st_ID, c_code))
+        conn.commit()
+
+    except Exception as e:
+        # If an error occurs during the database operation, roll back the transaction and return an error message
+        conn.rollback() 
+        return jsonify({"message": f"A database error occurred: {str(e)}"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({
+        "message": f"Unenrolled from {c_code} successfully.",
+        "Course Code": c_code,
+        "Student ID": st_ID
+    }), 200
+
+
 
 
 
@@ -1024,7 +1064,7 @@ def gradeAssignment(c_code, st_ID, a_ID):
 @app.route('/api/v1/course/<string:c_code>/assignment/<string:a_ID>/submit', methods=['POST'])
 @jwt_required()
 @Role.role_required("student")
-def submitAssignment(c_code, a_ID):
+def addSubmission(c_code, a_ID):
     connect = connection()
     conn = connect.conn
     cursor = conn.cursor(dictionary=True)
