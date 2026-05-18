@@ -2,11 +2,2519 @@
   "info": {
     "_postman_id": "bef2c0e1-8fae-4663-8f8e-ffd7991d3171",
     "name": "COMP3161-Project",
+    "description": "Completed by: Dana Archer",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "52985698",
     "_collection_link": "https://go.postman.co/collection/52985698-bef2c0e1-8fae-4663-8f8e-ffd7991d3171?source=collection_link"
   },
   "item": [
+    {
+      "name": "Authentication Routes",
+      "item": [
+        {
+          "name": "LoginAdmin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20856\",\r\n    \"password\": \"4A7(mSxp($\",\r\n    \"code\":\"ADM-7967\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/auth/admin/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "admin",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LoginLecturer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"400611\",\r\n    \"password\": \"*S83YFr*_D\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/auth/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login Student",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"620000001\",\r\n    \"password\": \"hvuOMQ1Sk0\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/auth/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Lecturer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"lect_ID\": \"400363\",\r\n    \"f_name\": \"Marty\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"mary.baker@lect.mona.edu\",\r\n    \"pswd\": \"eFdb2CA6\",\r\n    \"dept\": \"4\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/auth/lecturer/register",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "lecturer",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RegisterStudent",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"st_ID\": \"620163455\",\r\n    \"f_name\": \"Donald\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"donald.baker@mymona.edu\",\r\n    \"pswd\": \"eFdb2CA6\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/auth/student/register",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "student",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Course Routes",
+      "item": [
+        {
+          "name": "Get Courses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Course",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": " {{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Registered Students",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/CHIN1386/students",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "CHIN1386",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Course Members",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/members",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Lecturer Courses",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/lecturer/400611/courses",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "lecturer",
+                "400611",
+                "courses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Student Courses",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/620000001/courses",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "620000001",
+                "courses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"c_code\":\"Math2220\",\r\n    \"c_name\":\"Stastics for Computer Science I\",\r\n    \"c_credits\":\"3\",\r\n    \"dept\": \"Mathematics\",\r\n    \"lect_ID\":400611\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"c_code\":\"MATH2220\",\r\n    \"c_name\":\"Stastics for Computer Science II\",\r\n    \"c_credits\": \"\",\r\n    \"dept\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/update/Math2220",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "update",
+                "Math2220"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assign Lecturer",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"lect_ID\": 400909\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/MATH2220/assign",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "MATH2220",
+                "assign"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Enrol Student",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/MATH2220/enrol",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "MATH2220",
+                "enrol"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unenrol Student",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/MATH2220/enrol",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "MATH2220",
+                "enrol"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/MATH2220/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "MATH2220",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Section Routes",
+      "item": [
+        {
+          "name": "Get Sections",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Section",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700558"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Section",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sect_title\": \"Lecture\",\r\n    \"sect_name\": \"LO2\",\r\n    \"c_code\": \"CHIN1386\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Section",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sect_title\": \"Tutorial\",\r\n    \"sect_name\": \"TO2\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700700/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700700",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Section",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700700/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700700",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Course Content Routes",
+      "item": [
+        {
+          "name": "Get Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/course-content",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "course-content"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Section Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700558",
+                "course-content"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Section Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"con_type\": \"Link\",\r\n    \"con_desc\": \"Video of math solution\",\r\n    \"file_name\": \"math.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content/add",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700558",
+                "course-content",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"con_type\": \"Link\",\r\n    \"con_desc\": \"Video of a bug\",\r\n    \"file_name\": \"bug.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content/301483/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700558",
+                "course-content",
+                "301483",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Section Content",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/section/700558/course-content/301483/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "section",
+                "700558",
+                "course-content",
+                "301483",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Assignment Routes",
+      "item": [
+        {
+          "name": "Get Assignments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Assignment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/547",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "547"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Upcoming Assignments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/assignments/upcoming",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "assignments",
+                "upcoming"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Assignment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"a_desc\": \"Create tic-tac-toe in JavaScript\",\r\n    \"a_due_date\": \"2026-05-21\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Assignment Details",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"a_desc\": \"Create a tic-tac-toe game in Python\",\r\n    \"a_due_date\": \"2026-05-21\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "692",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Grade Assignment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"grade\": \"85\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/620000001/grade",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "692",
+                "620000001",
+                "grade"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/submit",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "692",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Submisson",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/submit",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "692",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Assignment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"lect_ID\": 400153\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/assignment/692/remove",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "assignment",
+                "692",
+                "remove"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Calendar Events Routes",
+      "item": [
+        {
+          "name": "Get Events",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/calendar_event/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "calendar_event",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Course Events",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "calendar_event"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Student's Events",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/calendar_event",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "calendar_event"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Events for Date",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"date\": \"2025-03-21\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/calendar_event/date",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "calendar_event",
+                "date"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n    \"event_name\": \"Drop-In Help Session\" ,\r\n    \"event_details\": \"Tutorial Practice\",\r\n    \"event_date\": \"2025-09-22\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "calendar_event",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n    \"event_name\": \"Drop-In Help Session\" ,\r\n    \"event_details\": \"Past Papers\",\r\n    \"event_date\": \"2025-09-21\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event/609/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "calendar_event",
+                "609",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/calendar_event/609/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "calendar_event",
+                "609",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Forum Routes",
+      "item": [
+        {
+          "name": "Get Forums",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "forums"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Forum",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"General Discussion I\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "forums"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Forum",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"General Questions\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums/500447/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "forums",
+                "500447",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Forum",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{lect_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"General Discussion\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/COMP2199/forums/500447/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "COMP2199",
+                "forums",
+                "500447",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Threads",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/forums/500367/threads",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "forums",
+                "500367",
+                "threads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Thread",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"When is assignment 4 due?\",\r\n    \"content\": \"I'm scared\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/forums/500367/threads",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "forums",
+                "500367",
+                "threads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Thread",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"When is assignment 4 due?\",\r\n    \"content\": \"Seriously...\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/threads/603150/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "threads",
+                "603150",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Thread",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/threads/603150/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "threads",
+                "603150",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Replies",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "threads",
+                "602578",
+                "replies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Reply",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n    \"content\": \"It's easy bro.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "threads",
+                "602578",
+                "replies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reply",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n    \"content\": \"It's difficult.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies/603151/update",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "threads",
+                "602578",
+                "replies",
+                "603151",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Reply",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{student_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/threads/602578/replies/603151/delete",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "threads",
+                "602578",
+                "replies",
+                "603151",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Report Routes",
+      "item": [
+        {
+          "name": "Report: Get Popular Courses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/popular",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "popular"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Report: Get Busy Lecturers",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/lecturer/busy",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "lecturer",
+                "busy"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Report: Get Busy Students",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
+            },
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/busy",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "busy"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Report: Get Top Ten Courses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/course/topTen",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "course",
+                "topTen"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Report: Get Top Ten Students",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{admin_Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/api/v1/student/topTen",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "student",
+                "topTen"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
     {
       "name": "Test API",
       "request": {
@@ -22,420 +2530,6 @@
             "1"
           ],
           "port": "5000"
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get CSRF-Token",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/csrf-token",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "csrf-token"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "LoginGen",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"id\": \"400317\",\r\n    \"password\": \"d01P6H)b+F\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/auth/login",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "login"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "LoginAdmin",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"id\": \"20533\",\r\n    \"password\": \"i^9V7navF&\",\r\n    \"code\":\"ADM-8716\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/auth/admin/login",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "admin",
-            "login"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "RegisterStudent",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaQcQ.LfqcLoWXVdTll1YMTOqpezmKIjU",
-            "type": "text"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"st_ID\": \"620163451\",\r\n    \"f_name\": \"Dawn\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"dawn.baker@mymona.edu\",\r\n    \"pswd\": \"eFdb2CA6\"\r\n\r\n}"
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/auth/student/register",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "student",
-            "register"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Register Lecturer",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdjZjE4ODM4Nzk3Yzc5NTI5MDU2MmQyN2FiNzMyMGRlNDAzNjI0NTEi.adaSCQ.tGtjzyRCjx6yhZpAH1mFHI9_J38",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"lect_ID\": \"400361\",\r\n    \"f_name\": \"Dane\",\r\n    \"l_name\":\"Baker\",\r\n    \"email\": \"dane.baker@lect.mona.edu\",\r\n    \"pswd\": \"eFdb2CA6\",\r\n    \"dept\": \"6\"\r\n\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/auth/lecturer/register",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "auth",
-            "lecturer",
-            "register"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Popular Courses",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
-            "type": "text"
-          }
-        ],
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/courses/popular",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "courses",
-            "popular"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Busy Students",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/students/busy",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "students",
-            "busy"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Busy Lecturers",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [
-          {
-            "key": "X-CSRFToken",
-            "value": "IjdiZTEzM2IxMWE2MDUxZGIwMzJhMGEzOWYwZDBiZDU2ZDkwODBmMGIi.adRckA.VRWZYvXJYBZRXJFVgUNO7XVdABg",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"id\": \"20044\",\r\n    \"password\": \"13cc805e7f5e7335138e75b8557da7d60e079bbb4180f0c60c86add350a28e50\",\r\n    \"code\":\"ADM-6982\"\r\n}"
-        },
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/lecturers/busy",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "lecturers",
-            "busy"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Top Ten Students",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/students/topTen",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "students",
-            "topTen"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get Top Ten Courses",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc3NTY2OTQwMCwianRpIjoiZjk1NzFjMzktMDMyYi00ZmUwLTlkNDktOWUzMzFjYWZmMzUyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIwNTMzIiwibmJmIjoxNzc1NjY5NDAwLCJjc3JmIjoiMTY0ZWExNTQtNjI2Ny00NmQ1LTg5OTctMzkxZDZlYjFkNWEyIiwiZXhwIjoxNzc1NjcwMzAwLCJyb2xlIjoiYWRtaW4ifQ.EkW1aiCxKKjsFzdMF1igAd-MK50APKV8tW1TY9HKxKw",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://127.0.0.1:5000/api/v1/courses/topTen",
-          "protocol": "http",
-          "host": [
-            "127",
-            "0",
-            "0",
-            "1"
-          ],
-          "port": "5000",
-          "path": [
-            "api",
-            "v1",
-            "courses",
-            "topTen"
-          ]
         }
       },
       "response": []
