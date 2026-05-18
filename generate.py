@@ -16,7 +16,7 @@ fake = Faker()
 # ---------------------------------------------------------------------------
 # Shared batch-write helper
 # Every SQL file is written in batches of BATCH_SIZE rows per INSERT statement.
-# This is to improve the speed of generatration
+# Written by Claude AI
 # ---------------------------------------------------------------------------
 
 BATCH_SIZE = 500
@@ -29,7 +29,6 @@ def write_batched(f, table_header, rows):
         f.write(table_header + "\n")
         f.write(",\n".join(batch) + ";\n\n")
 
-        # ✅ Progress update
         if (i // BATCH_SIZE) % 20 == 0:  # every 20 batches (~10k rows)
             print(f"  Writing... {min(i + BATCH_SIZE, total):,}/{total:,}")
 
@@ -195,62 +194,7 @@ def lecturers(num_lect, next_ID):
 used_st_ids    = set()
 used_st_emails = set()
 # Written by: Dana Archer
-'''def students(num_students, next_id):
-    user_id_counter = next_id
-
-    def generate_email(first_name, last_name, i):
-        return f"{first_name}.{last_name}{i}@my.mona.edu".lower()
-
-    user_inserts     = []
-    student_inserts  = []
-    student_user_ids = []
-    student_st_ids   = []
-    credentials      = []  # NEW
-
-    t0 = time.time()
-    for i in range(num_students):
-        if i % 10000 == 0 and i > 0:
-            print(f"  ...{i:,} students generated ({time.time()-t0:.1f}s)")
-
-        f_name   = fake.first_name()
-        l_name   = fake.last_name()
-        password = fake.password(length=10)
-        password_hash = generate_password_hash(password)
-
-        while True:
-            email = generate_email(f_name, l_name, i)
-            if email not in used_st_emails:
-                used_st_emails.add(email)
-                break
-
-        st_id   = 620000000 + i
-        user_id = user_id_counter
-
-        student_user_ids.append(user_id)
-        student_st_ids.append(st_id)
-        credentials.append(f"{user_id},{password}")  # NEW
-
-        user_inserts.append(
-            f"({user_id}, '{f_name}', '{l_name}', '{email}', '{password_hash}', 'student')"
-        )
-        student_inserts.append(f"({st_id}, {user_id})")
-        user_id_counter += 1
-
-    print(f"  Writing students.sql...")
-    with open("Database/Inserts/students.sql", "w", encoding="utf-8") as f:
-        f.write("-- USER INSERTS\n")
-        write_batched(f, "INSERT INTO User (user_ID, f_name, l_name, email, pswd, user_type) VALUES", user_inserts)
-        f.write("-- STUDENT INSERTS\n")
-        write_batched(f, "INSERT INTO Student (st_ID, user_ID) VALUES", student_inserts)
-
-    # NEW
-    with open("Database/Credentials/student_credentials.txt", "w", encoding="utf-8") as f:
-        f.write("user_id,password\n")
-        f.write("\n".join(credentials))
-
-    print(f"students.sql generated successfully! ({num_students:,} students, {time.time()-t0:.1f}s)")
-    return student_user_ids, student_st_ids'''
-
+# Optimized by Claude AI
 def students(num_students, next_id):
     import secrets
     import string
